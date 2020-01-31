@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!-- All coordinates in file must follow ROS conventions: x forward, z up -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <xacro:include filename="$(find uuv_descriptions)/urdf/common.urdf.xacro"/>
+  <xacro:include filename="$(find uuv_sensor_ros_plugins)/urdf/sensor_snippets.xacro"/>
+  <xacro:include filename="$(find riptide_descriptions)/urdf/snippets.xacro" />
+  <xacro:include filename="$(find riptide_descriptions)/urdf/robot.gazebo.xacro" />
+  <xacro:include filename="$(find uuv_gazebo_ros_plugins)/urdf/snippets.xacro"/>
+
+  <xacro:macro name="robot_base"
+    params="namespace config inertial_reference_frame">
+
+    <!-- Due to uuv_sim, base_link must be near center of vehicle -->
+    <link name="${namespace}/base_link"/>
+
+    <!-- Origin to define all coordinates relative to -->
+    <link name="${namespace}/origin">
+      <xacro:dummy_inertia/>
+
+      <visual>
+        <geometry>
+          <mesh filename="${config['mesh']}" scale="1 1 1"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <geometry>
+          <mesh filename="${config['mesh']}" scale="1 1 1"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${namespace}/origin_joint" type="fixed">
+      <parent link="${namespace}/base_link"/>
+      <child link="${namespace}/origin"/>
+      <origin xyz="${-config['base_link'][0]} ${-config['base_link'][1]} ${-config['base_link'][2]}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="${namespace}/base_inertia">
+      <inertial>
+        <mass value="${config['mass']}"/>
+        <inertia ixx="${config['inertia'][0]}" ixy="0.0" ixz="0.0" 
+                 iyy="${config['inertia'][1]}" iyz="0.0" 
+                 izz="${config['inertia'][2]}"/>
+      </inertial>
+    </link>
+    <joint name="${namespace}/inertia_joint" type="fixed">
+      <parent link="${namespace}/origin"/>
+      <child link="${namespace}/base_inertia"/>
+      <origin xyz="${config['com'][0]} ${config['com'][1]} ${config['com'][2]}" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Set up hydrodynamic plugin -->
+    <gazebo>
+      <plugin name="uuv_plugin" filename="libuuv_underwater_object_ros_plugin.so">
+        <fluid_density>1000</fluid_density>
+        <flow_velocity_topic>hydrodynamics/current_velocity</flow_velocity_topic>
+        <debug>$(arg debug)</debug>
+        <!-- Adding the hydrodynamic and hydrostatic parameters for the vehicle-->
+        <xacro:puddles_hydro_model namespace="$(arg namespace)"/>
+      </plugin>
+    </gazebo>
+
+    <xacro:include filename="$(find riptide_descriptions)/urdf/robot_sensors.xacro" />
+    <xacro:include filename="$(find riptide_descriptions)/urdf/robot_actuators.xacro" />
+
+  </xacro:macro>
+
+</robot>

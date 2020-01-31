@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="puddles" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <xacro:arg name="debug" default="0"/>
+  <xacro:arg name="namespace" default="puddles"/>
+  <xacro:arg name="inertial_reference_frame" default="world"/>
+  <!-- Include the Robot macro file -->
+  <xacro:include filename="$(find riptide_descriptions)/urdf/robot_base.xacro"/>
+
+  <!-- Read the config -->
+  <xacro:property name="yaml_file" value="$(find riptide_descriptions)/config/puddles.yaml" />
+  <xacro:property name="config" value="${load_yaml(yaml_file)}"/>
+
+  <!-- Create robot -->
+  <xacro:robot_base
+    namespace="$(arg namespace)"
+    config="${config}"
+    inertial_reference_frame="$(arg inertial_reference_frame)"/>
+
+</robot>

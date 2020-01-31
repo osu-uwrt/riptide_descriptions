@@ -1,0 +1,91 @@
+# Positions are in meters from back left foot. ENU convention
+# Pose is xyzrpy with rpy in radians
+
+# Visual model for gazebo and rviz
+mesh: package://riptide_descriptions/meshes/Puddles.dae
+mass: 39.825 # kg
+volume: .041 # m^3
+# Point which represents robot position. Must be near center
+base_link: [0.397, -0.205, 0.17] 
+com: [0.397, -0.205, 0.17]
+cob: [0.424, -0.213, 0.206]
+inertia: [1.32, 2.84, 3.65]
+
+# Drag parameters
+# TODO: Calculate real numbers 
+linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
+quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
+
+dvl:
+  topic: dvl
+  rate: 8 # Hz
+  sigma: 0.001 # Stdev in m/s. Used by gazebo
+  pose: [0.3302, 0.005, 0.1289, 0, 0, -2.35619]
+
+depth:
+  topic: depth/pressure
+  rate: 20 # Hz
+  sigma: 2 # Stdev in kPa. Used by gazebo
+  pose: [0.43815, -0.1397, 0.13335, 0, 0, 0]
+
+imu:
+  topic: imu/data
+  # Noise modeling is weird and is hard coded in urdf with some numbers.
+  # TODO: Model noise
+  rate: 100 #Hz
+  pose: [0.69215, -0.19685, 0.33, 0, 0, 3.14159]
+
+cameras: [
+  {
+    type: stereo,
+    name: stereo,
+    rate: 30, # Hz
+    hfov: 1.8, # rad
+    width: 644, # pixels
+    height: 482, # pixels
+    stddev: 0.02, # TODO: Estimate this number
+    baseline: 0.1016, # m. Distance between cameras
+    pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0]
+  },
+  {
+    type: mono,
+    name: downward,
+    rate: 30,
+    hfov: 1.8,
+    width: 644,
+    height: 482,
+    stddev: 0.02,
+    pose: [0.476, -0.181, 0.127, 0, 1.570796, 0]
+  }
+]
+
+thruster: 
+  mesh: package://riptide_descriptions/meshes/Propeller.dae
+  rotor_constant: 0.01 # Not sure units. If too low bot shakes
+
+thrusters: [
+  {
+    pose: [0.8255, 0.12065, 0.257175, 0.0, 0.0, 2.35619]
+  },
+  {
+    pose: [0.8255, -0.48895, 0.257175, 0.0, 0.0, -2.35619]
+  },
+  {
+    pose: [0.03175, 0.12065, 0.257175, 0.0, 0.0, 0.78540]
+  },
+  {
+    pose: [0.03175, -0.48895, 0.257175, 0.0, 0.0, -0.78540]
+  },
+  {
+    pose: [0.7747, 0, 0.161925, 0.0, -1.57079, 0.0] 
+  },
+  {
+    pose: [0.7747, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
+  },
+  {
+    pose: [0.08255, 0, 0.161925, 0.0, -1.57079, 0.0] 
+  },
+  {
+    pose: [0.08255, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
+  }
+]
