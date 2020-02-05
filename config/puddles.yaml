@@ -33,7 +33,7 @@ imu:
   # Noise modeling is weird and is hard coded in urdf with some numbers.
   # TODO: Model noise
   rate: 100 #Hz
-  pose: [0.69215, -0.19685, 0.33, 0, 0, 3.14159]
+  pose: [0.69215, -0.19685, 0.33, 0, 0, 0]
 
 cameras: [
   {
