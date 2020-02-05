@@ -30,7 +30,7 @@
       topic="${depth['topic']}"
       update_rate="${depth['rate']}"
       range="300"
-      noise_sigma="${depth['sigma']}"
+      noise_sigma="${depth['sigma'] * 9.80638}" 
       noise_amplitude="1"
       estimateDepth="false"
       standardPressure="101.325"
