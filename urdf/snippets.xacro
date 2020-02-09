@@ -5,8 +5,8 @@
   <!-- Makes a blank inertia (gazebo needs this sometimes) -->
   <xacro:macro name="dummy_inertia">
     <inertial>
-      <mass value=".001" />
-      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0" />
+      <mass value="0.00001" />
+      <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001" />
     </inertial>
   </xacro:macro>
   
