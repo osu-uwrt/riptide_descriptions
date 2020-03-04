@@ -6,7 +6,7 @@ mesh: package://riptide_descriptions/meshes/Puddles.dae
 mass: 39.825 # kg
 volume: .0415 # m^3
 # Point which represents robot position. Must be near center
-base_link: [0.397, -0.0205, 0.17] 
+base_link: [0.397, -0.205, 0.17] 
 com: [0.397, -0.205, 0.17]
 cob: [0.433, -0.201, 0.21]
 inertia: [1.32, 2.84, 3.65]
