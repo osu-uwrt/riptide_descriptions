@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
 <!-- All coordinates in file must follow ROS conventions: x forward, z up -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
-  <xacro:include filename="$(find uuv_descriptions)/urdf/common.urdf.xacro"/>
-  <xacro:include filename="$(find uuv_sensor_ros_plugins)/urdf/sensor_snippets.xacro"/>
   <xacro:include filename="$(find riptide_descriptions)/urdf/snippets.xacro" />
   <xacro:include filename="$(find riptide_descriptions)/urdf/robot.gazebo.xacro" />
-  <xacro:include filename="$(find uuv_gazebo_ros_plugins)/urdf/snippets.xacro"/>
 
   <xacro:macro name="robot_base"
     params="namespace config inertial_reference_frame">

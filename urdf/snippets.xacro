@@ -5,9 +5,47 @@
   <!-- Makes a blank inertia (gazebo needs this sometimes) -->
   <xacro:macro name="dummy_inertia">
     <inertial>
-      <mass value=".001" />
-      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0" />
+      <mass value="0.00001" />
+      <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001" />
     </inertial>
+  </xacro:macro>
+  
+  <xacro:macro name="no_collision">
+    <collision>
+      <geometry>
+        <cylinder length="${0.000001}" radius="${0.000001}" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+    </collision>
+  </xacro:macro>
+
+  <!-- Ground truth position -->
+  <xacro:macro name="default_pose_3d_macro" params="namespace parent_link inertial_reference_frame">
+    <!-- Mount a 3D pose sensor -->
+    <link name="${namespace}/pose_sensor_link">
+      <xacro:dummy_inertia />
+    </link>
+
+    <joint name="${namespace}/pose_sensor_joint" type="revolute">
+      <axis xyz="0 0 1"/>
+      <parent link="${parent_link}"/>
+      <child link="${namespace}/pose_sensor_link"/>
+      <limit effort="0" lower="0" upper="0" velocity="0"/>
+    </joint>
+
+    <gazebo>
+      <plugin name="pose_3d_plugin" filename="libuuv_gazebo_ros_pose_gt_plugin.so">
+        <robot_namespace>${namespace}</robot_namespace>
+        <link_name>${namespace}/base_link</link_name>
+        <sensor_topic>pose_gt</sensor_topic>
+        <static_reference_frame>${inertial_reference_frame}</static_reference_frame>
+        <noise_sigma>0</noise_sigma>
+        <noise_amplitude>0</noise_amplitude>
+        <update_rate>20</update_rate>
+        <enable_gazebo_messages>false</enable_gazebo_messages>
+        <publish_ned_odom>false</publish_ned_odom>
+      </plugin>
+    </gazebo>
   </xacro:macro>
 
   <!-- TODO: Add camera distortion -->
