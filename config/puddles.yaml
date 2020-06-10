@@ -12,6 +12,8 @@ cob: [0.433, -0.201, 0.21]
 inertia: [1.32, 2.84, 3.65]
 
 # Drag parameters
+# Drag force = linear_damping * vel + quadratic_damping * vel * abs(vel)
+# Vector is [X, Y, Z, X rotation, Y rotation, Z rotation] all in body frame
 # TODO: Calculate real numbers 
 linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
 quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
