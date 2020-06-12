@@ -147,6 +147,8 @@
 
   <!-- MYNT Camera has two cameras in it; We have to handle it similarly to stereo cameras -->
   <xacro:macro name="mynt_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
+    
+    <!-- Left camera -->
     <xacro:mynt_camera_macro
       namespace="${namespace}"
       name="${name}/left"
@@ -160,6 +162,7 @@
       <xacro:insert_block name="origin" />
     </xacro:mynt_camera_macro>
 
+    <!-- Right camera -->
     <xacro:mynt_camera_macro
       namespace="${namespace}"
       name="${name}/right"

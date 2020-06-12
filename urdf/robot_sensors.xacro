@@ -73,7 +73,7 @@
     <!-- TODO: I copied this over from the original macro. Fill in values for the MYNT imu. -->
     <xacro:mynt_imu_plugin_macro
       namespace="${namespace}"
-      imu_suffix="mynt"
+      imu_suffix="_mynt"
       parent_link="${namespace}/origin"
       imu_topic="${imu['topic']}"
       gyroscope_noise_density="0.0003394"
