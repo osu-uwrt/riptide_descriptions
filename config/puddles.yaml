@@ -35,11 +35,11 @@ imu:
   rate: 100 #Hz
   pose: [0.69215, -0.19685, 0.33, 0, 0, 0]
 
-mynt_imu: 
-  topic: mynteye/imu/data_raw 
+mynt_imu:
+  topic: mynteye/imu/data_raw
   # TODO: This is just the hz that rostopic hz appeared to center around, could be very slightly off
-  rate: 200 # Hz 
-  pose: [0, 0, 0, 0, 0, 0] # TODO: Get this 
+  rate: 200 # Hz
+  pose: [0, 0, 0, 0, 0, 0] # TODO: Get this
 
 cameras: [
   {
@@ -67,11 +67,11 @@ cameras: [
     type: mynt, 
     name: mynt, 
     rate: 60, 
-    hfov: 2.0944, # 120deg converted to rad 
+    hfov: 2.0944, # 120deg (we have 120deg model) converted to rad 
     width: 2560, # TODO: Double check that this is the resolution we'll be running at 
     height: 720, 
     stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
-    baseline: .12, # m. Distance between cameras (manually measured) 
+    baseline: 0.12, # m. Distance between cameras (manually measured) 
     pose: [0, 0, 0, 0, 0, 0] # TODO: Actually figure out what this should be. I think this is just hard measurements from overall robot origin. Juse using fake values to see if it works for now.
   }
 ]

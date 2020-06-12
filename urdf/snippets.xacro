@@ -145,6 +145,65 @@
     </xacro:camera_macro>
   </xacro:macro>
 
+  <!-- MYNT Camera has two cameras in it; We have to handle it similarly to stereo cameras -->
+  <xacro:macro name="mynt_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
+    <xacro:mynt_camera_macro
+      namespace="${namespace}"
+      name="${name}/left"
+      parent_link="${parent_link}"
+      update_rate="${update_rate}"
+      hfov="${hfov}"
+      width="${width}"
+      height="${height}"
+      stddev="${stddev}"
+      baseline="${baseline}">
+      <xacro:insert_block name="origin" />
+    </xacro:mynt_camera_macro>
+
+    <xacro:mynt_camera_macro
+      namespace="${namespace}"
+      name="${name}/right"
+      parent_link="${namespace}/${name}/left_link"
+      update_rate="${update_rate}"
+      hfov="${hfov}"
+      width="${width}"
+      height="${height}"
+      stddev="${stddev}"
+      baseline="${baseline}">
+      <origin xyz="0 ${-baseline} 0"/>
+    </xacro:mynt_camera_macro>
+
+    <!-- TODO: Add gazebo plugin support. Lots we can rip from camera_macro. 
+      Would probably need to make the plugin right here so that it only runs once. 
+      Uses different plugin than normal, great instructions on http://gazebosim.org/tutorials/?tut=ros_depth_camera -->
+
+  </xacro:macro>
+
+  <!-- TODO: Add camera distortion -->
+  <!-- This is the macro that actually defines one of the MYNT cameras -->
+  <xacro:macro name="mynt_camera_macro" params="namespace name parent_link update_rate hfov width height stddev baseline:=0 *origin">
+    
+    <link name="${namespace}/${name}_link">
+        <xacro:dummy_inertia />
+        <xacro:no_collision />
+    </link>
+
+    <joint name="${namespace}/${name}_joint" type="fixed">
+        <xacro:insert_block name="origin" />
+        <parent link="${parent_link}" />
+        <child link="${namespace}/${name}_link" />
+    </joint>
+
+    <link name="${namespace}/${name}_optical" />
+
+    <joint name="${namespace}/${name}_optical_joint" type="fixed">
+      <parent link="${namespace}/${name}_link" />
+      <child link="${namespace}/${name}_optical" />
+      <origin rpy="${-pi/2} 0 ${-pi/2}"></origin>
+    </joint>
+    
+  </xacro:macro>
+
   <xacro:macro name="dvl_single_sonar" params="namespace suffix index pitch yaw update_rate">
     <link name="${namespace}/dvl${suffix}_sonar${index}_link">
       <xacro:dummy_inertia/>
@@ -343,6 +402,35 @@
         <static_reference_frame>${reference_frame}</static_reference_frame>
       </plugin>
     </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="mynt_imu_plugin_macro"
+    params="namespace imu_suffix parent_link imu_topic
+      gyroscope_noise_density gyroscope_random_walk
+      gyroscope_bias_correlation_time gyroscope_turn_on_bias_sigma
+      accelerometer_noise_density accelerometer_random_walk
+      accelerometer_bias_correlation_time accelerometer_turn_on_bias_sigma
+      orientation_noise
+      update_rate reference_frame
+      enable_local_ned_frame
+      *origin">
+    <!-- IMU link -->
+    <link name="${namespace}/imu${imu_suffix}_link">
+      <xacro:dummy_inertia/>
+    </link>
+
+    <!-- IMU joint -->
+    <!-- TODO: Modify this so it fits mynt imu coordinate frame @ https://mynt-eye-d-sdk.readthedocs.io/en/latest/product/imu_coord.html -->
+    <joint name="${namespace}/imu${imu_suffix}_joint" type="revolute">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${namespace}/imu${imu_suffix}_link" />
+      <limit upper="0" lower="0" effort="0" velocity="0" />
+      <axis xyz="1 0 0"/>
+    </joint>
+
+    <!-- TODO: implement gazebo model for the mynt imu. Probably able to copy a lot from the other imu macro. -->
+
   </xacro:macro>
 
   <xacro:macro name="thruster_macro"

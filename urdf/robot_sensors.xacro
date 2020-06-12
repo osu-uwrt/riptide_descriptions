@@ -68,12 +68,12 @@
 
   <!-- mynt camera has its own imu -->
   <xacro:if value="${'mynt_imu' in config}">
-    <xacro:property name="imu" value="${config['imu']}"/>
+    <xacro:property name="imu" value="${config['mynt_imu']}"/>
 
     <!-- TODO: I copied this over from the original macro. Fill in values for the MYNT imu. -->
     <xacro:mynt_imu_plugin_macro
       namespace="${namespace}"
-      imu_suffix=""
+      imu_suffix="mynt"
       parent_link="${namespace}/origin"
       imu_topic="${imu['topic']}"
       gyroscope_noise_density="0.0003394"
@@ -90,7 +90,7 @@
       update_rate="${imu['rate']}">
       <origin xyz="${imu['pose'][0]} ${imu['pose'][1]} ${imu['pose'][2]}" 
               rpy="${imu['pose'][3]} ${imu['pose'][4]} ${imu['pose'][5]}"/>
-    </xacro:imu_plugin_macro>
+    </xacro:mynt_imu_plugin_macro>
   </xacro:if>
 
   <!-- Pose sensor as ground truth for state estimation -->
@@ -123,7 +123,7 @@
 
       <!-- Downward Camera -->
       <xacro:unless value="${camera['type'] == 'stereo'}">
-        <xacro:if value="${camera['type'] == 'downward'}">
+        <xacro:if value="${camera['type'] == 'mono'}">
           <xacro:camera_macro
             namespace="${namespace}"
             name="${camera['name']}"
@@ -139,7 +139,7 @@
         </xacro:if> 
 
         <!-- MYNT Camera -->
-        <xacro:unless value="${camera['type'] == 'downward'}">
+        <xacro:unless value="${camera['type'] == 'mono'}">
           <xacro:mynt_macro
             namespace="${namespace}"
             name="${camera['name']}"
