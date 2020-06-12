@@ -16,6 +16,9 @@ inertia: [1.32, 2.84, 3.65]
 linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
 quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
 
+claw:
+  pose: [1, -.18, 0.15, 0, 0, 0] # TODO: Calculate real position
+
 dvl:
   topic: dvl
   rate: 8 # Hz
