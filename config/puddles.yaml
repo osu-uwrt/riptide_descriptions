@@ -35,6 +35,12 @@ imu:
   rate: 100 #Hz
   pose: [0.69215, -0.19685, 0.33, 0, 0, 0]
 
+mynt_imu: 
+  topic: mynteye/imu/data_raw 
+  # TODO: This is just the hz that rostopic hz appeared to center around, could be very slightly off
+  rate: 200 # Hz 
+  pose: [0, 0, 0, 0, 0, 0] # TODO: Get this 
+
 cameras: [
   {
     type: stereo,
