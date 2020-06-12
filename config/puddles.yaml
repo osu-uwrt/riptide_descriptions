@@ -56,6 +56,17 @@ cameras: [
     height: 482,
     stddev: 0.02,
     pose: [0.476, -0.181, 0.127, 0, 1.570796, 0]
+  }, 
+  {
+    type: mynt, 
+    name: mynt, 
+    rate: 60, 
+    hfov: 2.0944, # 120deg converted to rad 
+    width: 2560, # TODO: Double check that this is the resolution we'll be running at 
+    height: 720, 
+    stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
+    baseline: .12, # m. Distance between cameras (manually measured) 
+    pose: [0, 0, 0, 0, 0, 0] # TODO: Actually figure out what this should be. I think this is just hard measurements from overall robot origin. Juse using fake values to see if it works for now.
   }
 ]
 
