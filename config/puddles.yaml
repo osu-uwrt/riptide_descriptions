@@ -65,14 +65,15 @@ cameras: [
   }, 
   {
     type: mynt, 
-    name: mynt, 
+    name: mynt,
+    suffix: "secondary", # Suffix is a required field 
     rate: 60, 
     hfov: 2.0944, # 120deg (we have 120deg model) converted to rad 
     width: 2560, # TODO: Double check that this is the resolution we'll be running at 
     height: 720, 
     stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
     baseline: 0.12, # m. Distance between cameras (manually measured) 
-    pose: [0, 0, 0, 0, 0, 0] # TODO: Actually figure out what this should be. I think this is just hard measurements from overall robot origin. Juse using fake values to see if it works for now.
+    pose: [0, 0, 0, 0, 0, 0] # TODO: Fill this in with actual measurements.
   }
 ]
 

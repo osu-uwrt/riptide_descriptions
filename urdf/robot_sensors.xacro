@@ -66,33 +66,6 @@
     </xacro:imu_plugin_macro>
   </xacro:if>
 
-  <!-- mynt camera has its own imu -->
-  <xacro:if value="${'mynt_imu' in config}">
-    <xacro:property name="imu" value="${config['mynt_imu']}"/>
-
-    <!-- TODO: I copied this over from the original macro. Fill in values for the MYNT imu. -->
-    <xacro:mynt_imu_plugin_macro
-      namespace="${namespace}"
-      imu_suffix="_mynt"
-      parent_link="${namespace}/origin"
-      imu_topic="${imu['topic']}"
-      gyroscope_noise_density="0.0003394"
-      gyroscope_random_walk="0.000038785"
-      gyroscope_bias_correlation_time="1000.0"
-      gyroscope_turn_on_bias_sigma="0.0087"
-      accelerometer_noise_density="0.004"
-      accelerometer_random_walk="0.006"
-      accelerometer_bias_correlation_time="300.0"
-      accelerometer_turn_on_bias_sigma="0.1960"
-      orientation_noise="0.01"
-      enable_local_ned_frame="false"
-      reference_frame="${inertial_reference_frame}"
-      update_rate="${imu['rate']}">
-      <origin xyz="${imu['pose'][0]} ${imu['pose'][1]} ${imu['pose'][2]}" 
-              rpy="${imu['pose'][3]} ${imu['pose'][4]} ${imu['pose'][5]}"/>
-    </xacro:mynt_imu_plugin_macro>
-  </xacro:if>
-
   <!-- Pose sensor as ground truth for state estimation -->
   <xacro:default_pose_3d_macro
     namespace="${namespace}"
@@ -139,9 +112,11 @@
         </xacro:if> 
 
         <!-- MYNT Camera -->
+        <!-- Suffix isn't set here because right now we just have one, but you should just need to change the suffix for each and it'll work. -->
         <xacro:unless value="${camera['type'] == 'mono'}">
           <xacro:mynt_macro
             namespace="${namespace}"
+            mynt_suffix="${camera['suffix']}"
             name="${camera['name']}"
             parent_link="${namespace}/origin" 
             update_rate="${camera['rate']}"
