@@ -116,7 +116,6 @@
         <xacro:unless value="${camera['type'] == 'mono'}">
           <xacro:mynt_macro
             namespace="${namespace}"
-            mynt_suffix="${camera['suffix']}"
             name="${camera['name']}"
             parent_link="${namespace}/origin" 
             update_rate="${camera['rate']}"
@@ -124,7 +123,9 @@
             width="${camera['width']}"
             height="${camera['height']}"
             stddev="${camera['stddev']}"
-            baseline="${camera['baseline']}">
+            baseline="${camera['baseline']}"
+            imu_topic="${camera['imu_topic']}"
+            imu_rate="${camera['imu_rate']}">
             <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
                     rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
           </xacro:mynt_macro>

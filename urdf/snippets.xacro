@@ -146,10 +146,10 @@
   </xacro:macro>
 
   <!-- MYNT Camera has two cameras in it; We have to handle it similarly to stereo cameras -->
-  <xacro:macro name="mynt_macro" params="namespace mynt_suffix parent_link name update_rate hfov width height stddev baseline *origin">
+  <xacro:macro name="mynt_macro" params="namespace parent_link name update_rate hfov width height stddev baseline imu_topic imu_rate *origin">
     
     <!-- Parent link is {namespace]/origin -->
-    <link name="${namespace}/${name}_${mynt_suffix}_link">
+    <link name="${namespace}/${name}/base_link">
         <xacro:dummy_inertia />
         <xacro:no_collision />
     </link>
@@ -157,14 +157,14 @@
     <joint name="${namespace}/${name}_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link="${parent_link}" />
-        <child link="${namespace}/${name}_${mynt_suffix}_link" />
+        <child link="${namespace}/${name}/base_link" />
     </joint>
 
     <!-- Left camera -->
     <xacro:mynt_camera_macro
       namespace="${namespace}"
-      name="${name}_${mynt_suffix}/left"
-      parent_link="${namespace}/${name}_${mynt_suffix}_link"
+      name="${name}/left"
+      parent_link="${namespace}/${name}/base_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
@@ -177,8 +177,8 @@
     <!-- Right camera -->
     <xacro:mynt_camera_macro
       namespace="${namespace}"
-      name="${name}_${mynt_suffix}/right"
-      parent_link="${namespace}/${name}_${mynt_suffix}_link"
+      name="${name}/right"
+      parent_link="${namespace}/${name}/base_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
@@ -191,13 +191,12 @@
     <!-- IMU needs added here rather than completely separately because its link/frame need to be relative from the camera itself -->
     <!-- TODO: I copied these numbers over from the original macro. Fill in values for the MYNT imu. -->
     <!-- If this macro is running, we can safely assume that this value in the .yaml exists, because if this is running we have a mynt camera initially. -->
-    <xacro:property name="imu" value="${config['mynt_imu']}"/>
     <xacro:imu_plugin_macro
 
-      namespace="${namespace}"
-      imu_suffix="_mynt_${mynt_suffix}"
-      parent_link="${namespace}/${name}_${mynt_suffix}_link"
-      imu_topic="${imu['topic']}"
+      namespace="${namespace}/${name}"
+      imu_suffix=""
+      parent_link="${namespace}/${name}/base_link"
+      imu_topic="${imu_topic}"
       gyroscope_noise_density="0.0003394"
       gyroscope_random_walk="0.000038785"
       gyroscope_bias_correlation_time="1000.0"
@@ -209,7 +208,7 @@
       orientation_noise="0.01"
       enable_local_ned_frame="false"
       reference_frame="${inertial_reference_frame}"
-      update_rate="${imu['rate']}">
+      update_rate="${imu_rate}">
 
       <!-- Halfway between the two cameras -->
       <origin xyz="0 ${-baseline/2} 0" />
