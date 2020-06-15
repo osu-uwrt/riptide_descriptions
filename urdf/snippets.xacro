@@ -149,7 +149,7 @@
   <xacro:macro name="mynt_macro" params="namespace parent_link name update_rate hfov width height stddev baseline imu_topic imu_rate *origin">
     
     <!-- Parent link is {namespace]/origin -->
-    <link name="${namespace}/${name}/base_link">
+    <link name="${namespace}/${name}_link">
         <xacro:dummy_inertia />
         <xacro:no_collision />
     </link>
@@ -157,14 +157,14 @@
     <joint name="${namespace}/${name}_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link="${parent_link}" />
-        <child link="${namespace}/${name}/base_link" />
+        <child link="${namespace}/${name}_link" />
     </joint>
 
     <!-- Left camera -->
     <xacro:mynt_camera_macro
-      namespace="${namespace}"
-      name="${name}/left"
-      parent_link="${namespace}/${name}/base_link"
+      namespace="${namespace}/${name}"
+      name="left"
+      parent_link="${namespace}/${name}_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
@@ -176,9 +176,9 @@
 
     <!-- Right camera -->
     <xacro:mynt_camera_macro
-      namespace="${namespace}"
-      name="${name}/right"
-      parent_link="${namespace}/${name}/base_link"
+      namespace="${namespace}/${name}"
+      name="right"
+      parent_link="${namespace}/${name}_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
@@ -195,7 +195,7 @@
 
       namespace="${namespace}/${name}"
       imu_suffix=""
-      parent_link="${namespace}/${name}/base_link"
+      parent_link="${namespace}/${name}_link"
       imu_topic="${imu_topic}"
       gyroscope_noise_density="0.0003394"
       gyroscope_random_walk="0.000038785"
