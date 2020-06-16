@@ -147,38 +147,37 @@
 
   <!-- MYNT Camera has two cameras in it; We have to handle it similarly to stereo cameras -->
   <xacro:macro name="mynt_macro" params="namespace parent_link name update_rate hfov width height stddev baseline imu_topic imu_rate *origin">
+    <xacro:property name="camera_namespace" default="${namespace}/${name}"/>
     
-    <!-- Parent link is {namespace]/origin -->
-    <link name="${namespace}/${name}_link">
+    <link name="${camera_namespace}/base_link">
         <xacro:dummy_inertia />
         <xacro:no_collision />
     </link>
 
-    <joint name="${namespace}/${name}_joint" type="fixed">
+    <joint name="${camera_namespace}/base_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link="${parent_link}" />
-        <child link="${namespace}/${name}_link" />
+        <child link="${camera_namespace}/base_link" />
     </joint>
 
-    <!-- Left camera -->
-    <xacro:mynt_camera_macro
-      namespace="${namespace}/${name}"
-      name="left"
-      parent_link="${namespace}/${name}_link"
+    <xacro:camera_macro
+      namespace="${namespace}"
+      name="${name}/left"
+      parent_link="${camera_namespace}/base_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
       height="${height}"
       stddev="${stddev}"
       baseline="${baseline}">
-      <xacro:insert_block name="origin" />
-    </xacro:mynt_camera_macro>
+      <origin xyz="0 0 0"/>
+    </xacro:camera_macro>
 
     <!-- Right camera -->
-    <xacro:mynt_camera_macro
-      namespace="${namespace}/${name}"
-      name="right"
-      parent_link="${namespace}/${name}_link"
+    <xacro:camera_macro
+      namespace="${namespace}"
+      name="${name}/right"
+      parent_link="${camera_namespace}/left_link"
       update_rate="${update_rate}"
       hfov="${hfov}"
       width="${width}"
@@ -186,16 +185,16 @@
       stddev="${stddev}"
       baseline="${baseline}">
       <origin xyz="0 ${-baseline} 0"/>
-    </xacro:mynt_camera_macro>
+    </xacro:camera_macro>
     
     <!-- IMU needs added here rather than completely separately because its link/frame need to be relative from the camera itself -->
     <!-- TODO: I copied these numbers over from the original macro. Fill in values for the MYNT imu. -->
     <!-- If this macro is running, we can safely assume that this value in the .yaml exists, because if this is running we have a mynt camera initially. -->
     <xacro:imu_plugin_macro
 
-      namespace="${namespace}/${name}"
+      namespace="${camera_namespace}"
       imu_suffix=""
-      parent_link="${namespace}/${name}_link"
+      parent_link="${camera_namespace}/base_link"
       imu_topic="${imu_topic}"
       gyroscope_noise_density="0.0003394"
       gyroscope_random_walk="0.000038785"
@@ -211,38 +210,13 @@
       update_rate="${imu_rate}">
 
       <!-- Halfway between the two cameras -->
-      <origin xyz="0 ${-baseline/2} 0" />
+      <origin xyz="0 ${-baseline/2} 0" rpy="${0.5*pi} 0 ${-0.5*pi}"/>
 
     </xacro:imu_plugin_macro>
 
     <!-- TODO: Add gazebo camera plugin http://gazebosim.org/tutorials/?tut=ros_depth_camera -->
     <!-- imu plugin is already here; We launch the mynt imu with the same macro as our original macro -->
 
-  </xacro:macro>
-
-  <!-- TODO: Add camera distortion -->
-  <!-- This is the macro that actually defines one of the MYNT cameras -->
-  <xacro:macro name="mynt_camera_macro" params="namespace name parent_link update_rate hfov width height stddev baseline:=0 *origin">
-    
-    <link name="${namespace}/${name}_link">
-        <xacro:dummy_inertia />
-        <xacro:no_collision />
-    </link>
-
-    <joint name="${namespace}/${name}_joint" type="fixed">
-        <xacro:insert_block name="origin" />
-        <parent link="${parent_link}" />
-        <child link="${namespace}/${name}_link" />
-    </joint>
-
-    <link name="${namespace}/${name}_optical" />
-
-    <joint name="${namespace}/${name}_optical_joint" type="fixed">
-      <parent link="${namespace}/${name}_link" />
-      <child link="${namespace}/${name}_optical" />
-      <origin rpy="${-pi/2} 0 ${-pi/2}"></origin>
-    </joint>
-    
   </xacro:macro>
 
   <xacro:macro name="dvl_single_sonar" params="namespace suffix index pitch yaw update_rate">

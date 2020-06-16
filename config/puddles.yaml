@@ -36,17 +36,17 @@ imu:
   pose: [0.69215, -0.19685, 0.33, 0, 0, 0]
 
 cameras: [
-  {
-    type: stereo,
-    name: stereo,
-    rate: 30, # Hz
-    hfov: 1.8, # rad
-    width: 644, # pixels
-    height: 482, # pixels
-    stddev: 0.02, # TODO: Estimate this number
-    baseline: 0.1016, # m. Distance between cameras
-    pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0]
-  },
+  # {
+  #   type: stereo,
+  #   name: stereo,
+  #   rate: 30, # Hz
+  #   hfov: 1.8, # rad
+  #   width: 644, # pixels
+  #   height: 482, # pixels
+  #   stddev: 0.02, # TODO: Estimate this number
+  #   baseline: 0.1016, # m. Distance between cameras
+  #   pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0]
+  # },
   {
     type: mono,
     name: downward,
@@ -59,15 +59,15 @@ cameras: [
   }, 
   {
     type: mynt, 
-    name: mynt_front,
+    name: stereo,
     rate: 60, 
     hfov: 2.0944, # 120deg (we have 120deg model) converted to rad 
-    width: 2560, # TODO: Double check that this is the resolution we'll be running at 
+    width: 1280, # TODO: Double check that this is the resolution we'll be running at 
     height: 720, 
     stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
     baseline: 0.12, # m. Distance between cameras (manually measured) 
-    pose: [0, 0, 0, 0, 0, 0], # TODO: Fill this in with actual measurements.
-    imu_topic: mynt_front/imu/data_raw,
+    pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0], # TODO: Fill this in with actual measurements.
+    imu_topic: imu/data_raw,
     imu_rate: 200, # Hz
     # Note: IMU Pose isn't necessary b/c it's located halfway between the two cameras and we can thus calculate it in the macros easily as {baseline/2}
   }
