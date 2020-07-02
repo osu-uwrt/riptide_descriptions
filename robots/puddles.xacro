@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0"?> 
 <robot name="puddles" xmlns:xacro="http://www.ros.org/wiki/xacro" >
   <xacro:arg name="debug" default="0"/>
   <xacro:arg name="namespace" default="puddles"/>
@@ -16,4 +16,4 @@
     config="${config}"
     inertial_reference_frame="$(arg inertial_reference_frame)"/>
 
-</robot>
+</robot> 

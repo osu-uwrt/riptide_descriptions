@@ -16,7 +16,7 @@
 
       <visual>
         <geometry>
-          <mesh filename="${config['mesh']}" scale="1 1 1"/>
+          <mesh filename="${config['visual_mesh']}" scale="1 1 1"/>
         </geometry>
       </visual>
 
