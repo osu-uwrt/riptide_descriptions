@@ -1,8 +1,8 @@
 # Positions are in meters from back left foot. ENU convention
 # Pose is xyzrpy with rpy in radians
 
-# Visual model for gazebo and rviz
-mesh: package://riptide_descriptions/meshes/Puddles.dae
+# collision and visual models for gazebo and rviz
+mesh: package://riptide_descriptions/meshes/puddles_collision.dae
 visual_mesh: package://riptide_descriptions/meshes/puddles_visual.dae
 mass: 39.825 # kg
 volume: .0415 # m^3
