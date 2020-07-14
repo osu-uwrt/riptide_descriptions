@@ -77,7 +77,9 @@ cameras: [
 
 thruster: 
   mesh: package://riptide_descriptions/meshes/Propeller.dae
-  rotor_constant: 0.01 # Not sure units. If too low bot shakes
+  rotor_constant: 0.01 # Not sure units. If too low bot shakes in sim
+  max_force: 32 # Newtons. Thrusters draw about 8A here
+
 
 thrusters: [
   {
