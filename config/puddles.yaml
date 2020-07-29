@@ -16,6 +16,12 @@ inertia: [1.32, 2.84, 3.65]
 linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
 quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
 
+# maximum values for velocity and acceleration the thrusters are capible of reaching
+maximum_linear_velocity: 1
+maximum_linear_acceleration: 1
+maximum_angular_velocity: 1
+maximum_angular_acceleration: 1
+
 dvl:
   topic: dvl
   rate: 8 # Hz
