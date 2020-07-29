@@ -12,6 +12,8 @@ cob: [0.433, -0.201, 0.21]
 inertia: [1.32, 2.84, 3.65]
 
 # Drag parameters
+# Drag force = linear_damping * vel + quadratic_damping * vel * abs(vel)
+# Vector is [X, Y, Z, X rotation, Y rotation, Z rotation] all in body frame
 # TODO: Calculate real numbers 
 linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
 quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
@@ -42,17 +44,17 @@ imu:
   pose: [0.69215, -0.19685, 0.33, 0, 0, 0]
 
 cameras: [
-  {
-    type: stereo,
-    name: stereo,
-    rate: 30, # Hz
-    hfov: 1.8, # rad
-    width: 644, # pixels
-    height: 482, # pixels
-    stddev: 0.02, # TODO: Estimate this number
-    baseline: 0.1016, # m. Distance between cameras
-    pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0]
-  },
+  # {
+  #   type: stereo,
+  #   name: stereo,
+  #   rate: 30, # Hz
+  #   hfov: 1.8, # rad
+  #   width: 644, # pixels
+  #   height: 482, # pixels
+  #   stddev: 0.02, # TODO: Estimate this number
+  #   baseline: 0.1016, # m. Distance between cameras
+  #   pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0]
+  # },
   {
     type: mono,
     name: downward,
@@ -62,12 +64,28 @@ cameras: [
     height: 482,
     stddev: 0.02,
     pose: [0.476, -0.181, 0.127, 0, 1.570796, 0]
+  }, 
+  {
+    type: mynt, 
+    name: stereo,
+    rate: 60, 
+    hfov: 2.0944, # 120deg (we have 120deg model) converted to rad 
+    width: 1280, # TODO: Double check that this is the resolution we'll be running at 
+    height: 720, 
+    stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
+    baseline: 0.12, # m. Distance between cameras (manually measured) 
+    pose: [0.835025, -0.1381125, 0.2714625, 0, 0, 0], # TODO: Fill this in with actual measurements.
+    imu_topic: imu/data_raw,
+    imu_rate: 200, # Hz
+    # Note: IMU Pose isn't necessary b/c it's located halfway between the two cameras and we can thus calculate it in the macros easily as {baseline/2}
   }
 ]
 
 thruster: 
   mesh: package://riptide_descriptions/meshes/Propeller.dae
-  rotor_constant: 0.01 # Not sure units. If too low bot shakes
+  rotor_constant: 0.01 # Not sure units. If too low bot shakes in sim
+  max_force: 32 # Newtons. Thrusters draw about 8A here
+
 
 thrusters: [
   {
