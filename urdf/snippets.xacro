@@ -383,11 +383,21 @@
       <xacro:dummy_inertia/>
     </link>
 
+    <link name="${namespace}/imu${imu_suffix}_revolute_link">
+      <xacro:dummy_inertia/>
+    </link>
+
     <!-- IMU joint -->
-    <joint name="${namespace}/imu${imu_suffix}_joint" type="revolute">
+    <joint name="${namespace}/imu${imu_suffix}_joint" type="fixed">
       <xacro:insert_block name="origin" />
       <parent link="${parent_link}" />
       <child link="${namespace}/imu${imu_suffix}_link" />
+    </joint>
+
+    <joint name="${namespace}/imu${imu_suffix}_revolute_joint" type="revolute">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${namespace}/imu${imu_suffix}_revolute_link" />
       <limit upper="0" lower="0" effort="0" velocity="0" />
       <axis xyz="1 0 0"/>
     </joint>
@@ -397,8 +407,8 @@
       <!-- A good description of the IMU parameters can be found in the kalibr documentation:
            https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model-and-Intrinsics -->
         <robot_namespace>${namespace}</robot_namespace> <!-- (string, required): ros namespace in which the messages are published -->
-        <link_name>${namespace}/imu${imu_suffix}_link</link_name> <!-- (string, required): name of the body which holds the IMU sensor -->
-        <sensor_topic>${imu_topic}</sensor_topic> <!-- (string): name of the sensor output topic and prefix of service names (defaults to imu) -->
+        <link_name>${namespace}/imu${imu_suffix}_revolute_link</link_name> <!-- (string, required): name of the body which holds the IMU sensor -->
+        <sensor_topic>${imu_topic}/sim</sensor_topic> <!-- (string): name of the sensor output topic and prefix of service names (defaults to imu) -->
 
         <gyroscope_noise_density>${gyroscope_noise_density}</gyroscope_noise_density> <!-- Gyroscope noise density (two-sided spectrum) [rad/s/sqrt(Hz)] -->
         <gyroscope_random_walk>${gyroscope_random_walk}</gyroscope_random_walk> <!-- Gyroscope bias random walk [rad/s/s/sqrt(Hz)] -->
