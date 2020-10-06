@@ -24,6 +24,9 @@ maximum_linear_acceleration: 1
 maximum_angular_velocity: 1
 maximum_angular_acceleration: 1
 
+claw:
+  pose: [1, -.18, 0.15, 0, 0, 0] # TODO: Calculate real position
+
 dvl:
   topic: dvl
   rate: 8 # Hz

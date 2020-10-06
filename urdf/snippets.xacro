@@ -471,5 +471,74 @@
       <selfCollide>false</selfCollide>
     </gazebo>
   </xacro:macro>
+
+  <xacro:macro name="newton_gripper_macro" params="namespace parent_link *origin">
+    <link name="${namespace}/gripper_base_link">
+      <xacro:dummy_inertia />
+    </link>
+
+    <joint name="${namespace}/gripper_base_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="${namespace}/gripper_base_link"/>
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <link name="${namespace}/gripper_inner_link">
+      <inertial>
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://riptide_descriptions/meshes/claw_inside.dae" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+      </visual>
+
+      <collision>
+        <geometry>
+          <mesh filename="package://riptide_descriptions/meshes/claw_inside.dae" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+      </collision>
+    </link>
+
+    <joint name="${namespace}/gripper_inner_joint" type="revolute">
+      <axis xyz="0 0 1"/>
+      <parent link="${namespace}/gripper_base_link"/>
+      <child link="${namespace}/gripper_inner_link"/>
+      <origin xyz="-0.032 0.02 0" />
+      <limit effort="100" lower="0" upper="0.52" velocity=".32"/>
+    </joint>
+
+    <link name="${namespace}/gripper_outer_link">
+      <inertial>
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://riptide_descriptions/meshes/claw_outside.dae" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+      </visual>
+
+      <collision>
+        <geometry>
+          <mesh filename="package://riptide_descriptions/meshes/claw_outside.dae" scale="0.0254 0.0254 0.0254"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 ${0.5*pi} 0"/>
+      </collision>
+    </link>
+
+    <joint name="${namespace}/gripper_outer_joint" type="revolute">
+      <axis xyz="0 0 1"/>
+      <parent link="${namespace}/gripper_base_link"/>
+      <child link="${namespace}/gripper_outer_link"/>
+      <origin xyz="-0.032 -0.02 0" />
+      <limit effort="100" lower="-0.52" upper="0" velocity=".32"/>
+      <mimic joint="${namespace}/gripper_inner_joint" multiplier="-1" />
+    </joint>
+  </xacro:macro>
   
 </robot>
