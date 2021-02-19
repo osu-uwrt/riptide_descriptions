@@ -15,14 +15,20 @@ inertia: [1.32, 2.84, 3.65]
 # Drag force = linear_damping * vel + quadratic_damping * vel * abs(vel)
 # Vector is [X, Y, Z, X rotation, Y rotation, Z rotation] all in body frame
 # TODO: Calculate real numbers 
-linear_damping: [-17.0, -50.0, -50.0, -4, -9, -9]
-quadratic_damping: [-180.0, -460.0, -460.0, -12, -24.0, -24.0]
+linear_damping: [-17.0, -50.0, -50.0, -2, -4.5, -2.5]
+quadratic_damping: [-180.0, -460.0, -460.0, -6, -12, -12]
 
 # maximum values for velocity and acceleration the thrusters are capible of reaching
-maximum_linear_velocity: 1
-maximum_linear_acceleration: 1
-maximum_angular_velocity: 1
-maximum_angular_acceleration: 1
+maximum_linear_velocity: [.45, .2, .2]
+maximum_linear_acceleration: [1, 1, 1]
+maximum_angular_velocity: [.5, .5, 1]
+maximum_angular_acceleration: [2, 2, 2]
+
+# P values for the control system
+linear_position_p: [1, 1, 1]
+linear_velocity_p: [4, 4, 4]
+angular_position_p: [300, 300, 300]
+angular_velocity_p: [10, 10, 10]
 
 dvl:
   topic: dvl
@@ -84,24 +90,36 @@ cameras: [
 thruster: 
   mesh: package://riptide_descriptions/meshes/Propeller.dae
   rotor_constant: 0.01 # Not sure units. If too low bot shakes in sim
-  max_force: 32 # Newtons. Thrusters draw about 8A here
+  max_force: 30 # Newtons. Thrusters draw about 8A here
+  MIN_THRUST: 0.2
+  STARTUP_THRUST: 1.5
+  SU_THRUST:
+    POS_SLOPE: 22.500000
+    POS_YINT: 1520
+    NEG_SLOPE: 28.600000
+    NEG_YINT: 1477
+  THRUST:
+    POS_SLOPE: 6.66
+    POS_YINT: 1552
+    NEG_SLOPE: 8.54
+    NEG_YINT: 1444
 
 
 thrusters: [
   {
-    name: "VPF",
-    type: 0,
-    pose: [0.8255, 0.12065, 0.257175, 0.0, 0.0, 2.35619]
+    name: "HSA",
+    type: 1,
+    pose: [0.08255, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
+  },
+  {
+    name: "HSF",
+    type: 1,
+    pose: [0.7747, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
   },
   {
     name: "VSF",
     type: 0,
     pose: [0.8255, -0.48895, 0.257175, 0.0, 0.0, -2.35619]
-  },
-  {
-    name: "VPA",
-    type: 0,
-    pose: [0.03175, 0.12065, 0.257175, 0.0, 0.0, 0.78540]
   },
   {
     name: "VSA",
@@ -114,18 +132,18 @@ thrusters: [
     pose: [0.7747, 0, 0.161925, 0.0, -1.57079, 0.0] 
   },
   {
-    name: "HSF",
-    type: 1,
-    pose: [0.7747, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
-  },
-  {
     name: "HPA",
     type: 1,
     pose: [0.08255, 0, 0.161925, 0.0, -1.57079, 0.0] 
   },
   {
-    name: "HSA",
-    type: 1,
-    pose: [0.08255, -0.3683, 0.161925, 0.0, -1.57079, 0.0]
+    name: "VPF",
+    type: 0,
+    pose: [0.8255, 0.12065, 0.257175, 0.0, 0.0, 2.35619]
+  },
+  {
+    name: "VPA",
+    type: 0,
+    pose: [0.03175, 0.12065, 0.257175, 0.0, 0.0, 0.78540]
   }
 ]

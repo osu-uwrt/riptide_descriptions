@@ -10,6 +10,7 @@
             <!-- COB is relative to center of base_link, thus the math -->
             <center_of_buoyancy>${config['cob'][0]-config['base_link'][0]} ${config['cob'][1]-config['base_link'][1]} ${config['cob'][2]-config['base_link'][2]}</center_of_buoyancy>
             <hydrodynamic_model>
+                <!--clairedune.kippou.fr/Fossen.pdf-->
                 <type>fossen</type>
                 <added_mass>
                     0 0 0 0 0 0
