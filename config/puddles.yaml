@@ -76,7 +76,7 @@ cameras: [
     name: stereo,
     rate: 60, 
     hfov: 1.418, # 120deg (we have 120deg model) converted to rad 
-    width: 1280, # TODO: Double check that this is the resolution we'll be running at 
+    width: 1280,
     height: 720, 
     stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
     baseline: 0.12, # m. Distance between cameras (manually measured) 
