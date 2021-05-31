@@ -103,7 +103,7 @@
               <cameraName>${name}</cameraName>
               <imageTopicName>image_raw</imageTopicName>
               <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-              <frameName>${name}_optical</frameName>
+              <frameName>${namespace}/${name}_optical</frameName>
               <hackBaseline>${baseline}</hackBaseline>
               <!-- <distortionK1>${k1l}</distortionK1>
               <distortionK2>${k2l}</distortionK2>
