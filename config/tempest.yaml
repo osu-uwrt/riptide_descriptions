@@ -2,7 +2,7 @@
 # Pose is xyzrpy with rpy in radians
 
 # Visual model for gazebo and rviz
-mesh: package://riptide_descriptions/meshes/Titan.dae
+mesh: package://riptide_descriptions/meshes/Tempest.dae
 mass: 26.7619 # kg
 volume: .0321 # m^3
 # Point which represents robot position. Must be near center

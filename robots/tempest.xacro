@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<robot name="titan" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<robot name="tempest" xmlns:xacro="http://www.ros.org/wiki/xacro" >
   <xacro:arg name="debug" default="0"/>
-  <xacro:arg name="namespace" default="titan"/>
+  <xacro:arg name="namespace" default="tempest"/>
   <xacro:arg name="inertial_reference_frame" default="world"/>
   <!-- Include the Robot macro file -->
   <xacro:include filename="$(find riptide_descriptions)/urdf/robot_base.xacro"/>
 
   <!-- Read the config -->
-  <xacro:property name="yaml_file" value="$(find riptide_descriptions)/config/titan.yaml" />
+  <xacro:property name="yaml_file" value="$(find riptide_descriptions)/config/tempest.yaml" />
   <xacro:property name="config" value="${load_yaml(yaml_file)}"/>
 
   <!-- Create robot -->
