@@ -2,7 +2,7 @@
 # Pose is xyzrpy with rpy in radians
 
 # Visual model for gazebo and rviz
-mesh: package://riptide_descriptions/meshes/Puddles.dae
+mesh: package://riptide_descriptions2/meshes/Puddles.dae
 mass: 39.825 # kg
 volume: 0.041411663076 # m^3
 # Point which represents robot position. Must be near center
@@ -88,7 +88,7 @@ cameras: [
 ]
 
 thruster: 
-  mesh: package://riptide_descriptions/meshes/Propeller.dae
+  mesh: package://riptide_descriptions2/meshes/Propeller.dae
   rotor_constant: 0.01 # Not sure units. If too low bot shakes in sim
   max_force: 30 # Newtons. Thrusters draw about 8A here
   MIN_THRUST: 0.2

@@ -147,7 +147,7 @@
         </xacro:camera_macro>
 
         <!-- Right camera -->
-        <xacro:camera_macro namespace="${namespace}" name="${name}_right" parent_link="${camera_namespace}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}" name="${name}_right" parent_link="${camera_namespace}_left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 ${-baseline} 0" />
         </xacro:camera_macro>
 
