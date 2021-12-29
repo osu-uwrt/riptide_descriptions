@@ -118,11 +118,11 @@
     </xacro:macro>
 
     <xacro:macro name="stereo_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
-        <xacro:camera_macro namespace="${namespace}" name="${name}/left" parent_link="${parent_link}" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}" name="${name}_left" parent_link="${parent_link}" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <xacro:insert_block name="origin" />
         </xacro:camera_macro>
 
-        <xacro:camera_macro namespace="${namespace}" name="${name}/right" parent_link="${namespace}/${name}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}" name="${name}_right" parent_link="${namespace}/${name}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 ${-baseline} 0" />
         </xacro:camera_macro>
     </xacro:macro>
