@@ -51,7 +51,7 @@
       namespace="${namespace}"
       imu_suffix=""
       parent_link="${namespace}/origin"
-      imu_topic="${imu['topic']}"
+      imu_topic="${namespace}/${imu['topic']}"
       gyroscope_noise_density="0.0003394"
       gyroscope_random_walk="0.000038785"
       gyroscope_bias_correlation_time="1000.0"

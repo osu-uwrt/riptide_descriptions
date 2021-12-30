@@ -87,29 +87,21 @@
                         <mean>0.0</mean>
                         <stddev>${stddev}</stddev>
                     </noise>
-                    <!-- <distortion>
-                <k1>${k1l}</k1>
-                <k2>${k2l}</k2>
-                <k3>${k3l}</k3>
-                <p1>${p1l}</p1>
-                <p2>${p2l}</p2>
-                <center>0.5 0.5</center>
-              </distortion> -->
                 </camera>
 
                 <plugin name="${name}_controller" filename="libgazebo_ros_camera.so">
                     <alwaysOn>true</alwaysOn>
-                    <updateRate>${update_rate}</updateRate>
-                    <cameraName>${name}</cameraName>
-                    <imageTopicName>image_raw</imageTopicName>
-                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                    <ros>
+                        <!-- topics need to be prefixed with camera_name for remapping -->
+                        <camera_name>${name}</camera_name>
+                        <remapping>${name}/image_raw:=${namespace}/${name}/image_raw</remapping>
+                        <remapping>${name}/image_raw/compressed:=${namespace}/${name}/image_raw/compressed</remapping>
+                        <remapping>${name}/camera_info:=${namespace}/${name}/camera_info</remapping>
+                    </ros>
+                    <!--<imageTopicName>image_raw</imageTopicName>
+                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
                     <frameName>${namespace}/${name}_optical</frameName>
                     <hackBaseline>${baseline}</hackBaseline>
-                    <!-- <distortionK1>${k1l}</distortionK1>
-              <distortionK2>${k2l}</distortionK2>
-              <distortionK3>${k3l}</distortionK3>
-              <distortionT1>${p1l}</distortionT1>
-              <distortionT2>${p2l}</distortionT2> -->
                 </plugin>
                 <always_on>1</always_on>
                 <update_rate>${update_rate}</update_rate>
@@ -118,11 +110,11 @@
     </xacro:macro>
 
     <xacro:macro name="stereo_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
-        <xacro:camera_macro namespace="${namespace}" name="${name}_left" parent_link="${parent_link}" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${parent_link}" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <xacro:insert_block name="origin" />
         </xacro:camera_macro>
 
-        <xacro:camera_macro namespace="${namespace}" name="${name}_right" parent_link="${namespace}/${name}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}" name="right" parent_link="${namespace}/${name}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 ${-baseline} 0" />
         </xacro:camera_macro>
     </xacro:macro>
@@ -142,12 +134,12 @@
             <child link="${camera_namespace}/base_link" />
         </joint>
 
-        <xacro:camera_macro namespace="${namespace}" name="${name}_left" parent_link="${camera_namespace}/base_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${camera_namespace}/base_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 0 0" />
         </xacro:camera_macro>
 
         <!-- Right camera -->
-        <xacro:camera_macro namespace="${namespace}" name="${name}_right" parent_link="${camera_namespace}_left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
+        <xacro:camera_macro namespace="${namespace}/${name}" name="right" parent_link="${camera_namespace}/left_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 ${-baseline} 0" />
         </xacro:camera_macro>
 
@@ -205,14 +197,15 @@
                     </range>
                 </ray>
 
-                <plugin filename="libgazebo_ros_range.so" name="dvl${suffix}_sonar${index}">
+                <plugin filename="libgazebo_ros_ray_sensor.so" name="dvl${suffix}_sonar${index}">
                     <gaussianNoise>0.005</gaussianNoise>
                     <alwaysOn>true</alwaysOn>
                     <updateRate>${update_rate}</updateRate>
                     <topicName>${topic}_sonar${index}</topicName>
                     <frameName>${namespace}/dvl${suffix}_sonar${index}_link</frameName>
                     <fov>0.06</fov>
-                    <radiation>ultrasound</radiation>
+                    <radiation_type>ultrasound</radiation_type>
+                    <output_type>sensor_msgs/Range</output_type>
                 </plugin>
             </sensor>
         </gazebo>

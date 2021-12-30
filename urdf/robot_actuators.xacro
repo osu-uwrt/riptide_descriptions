@@ -24,7 +24,7 @@
       <xacro:thruster_macro 
         namespace="${namespace}"
         thruster_id="${index}"
-        mesh_filename="${config['mesh']}"
+        mesh_filename="${prop_file}"
         rotor_constant="${config['rotor_constant']}">
         <origin xyz="${thruster['pose'][0]} ${thruster['pose'][1]} ${thruster['pose'][2]}" 
                 rpy="${thruster['pose'][3]} ${thruster['pose'][4]} ${thruster['pose'][5]}"/>
