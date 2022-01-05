@@ -35,7 +35,9 @@
 
         <gazebo>
             <plugin name="pose_3d_plugin" filename="libuuv_gazebo_ros_pose_gt_plugin.so">
-                <robot_namespace>${namespace}</robot_namespace>
+                <ros>
+                    <namespace>${namespace}</namespace> <!-- (string, required): ros namespace in which the messages are published -->
+                </ros>
                 <link_name>${namespace}/base_link</link_name>
                 <sensor_topic>pose_gt</sensor_topic>
                 <static_reference_frame>${inertial_reference_frame}</static_reference_frame>
@@ -198,6 +200,9 @@
                 </ray>
 
                 <plugin filename="libgazebo_ros_ray_sensor.so" name="dvl${suffix}_sonar${index}">
+                    <ros>
+                        <namespace>${namespace}</namespace>
+                    </ros>
                     <gaussianNoise>0.005</gaussianNoise>
                     <alwaysOn>true</alwaysOn>
                     <updateRate>${update_rate}</updateRate>
@@ -236,7 +241,9 @@
 
         <gazebo>
             <plugin filename="libuuv_gazebo_ros_dvl_plugin.so" name="libuuv_gazebo_dvl${suffix}_plugin">
-                <robot_namespace>${namespace}</robot_namespace> <!-- (string, required): ros namespace in which the messages are published -->
+                <ros>
+                    <namespace>${namespace}</namespace>
+                </ros> <!-- (string, required): ros namespace in which the messages are published -->
                 <link_name>${namespace}/dvl${suffix}_link</link_name>
                 <sensor_topic>${topic}</sensor_topic> <!-- (string): name of the sensor output topic and prefix of service names -->
                 <update_rate>${update_rate}</update_rate> <!-- Update period [s] -->
@@ -393,6 +400,18 @@
 
         <gazebo reference="${namespace}/thruster_${thruster_id}">
             <selfCollide>false</selfCollide>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="default_joint_state_publisher" params="namespace update_rate">
+        <gazebo>
+            <plugin name="uuv_joint_state_publisher" filename="libuuv_joint_state_publisher.so">
+                <ros>
+                    <namespace>${namespace}</namespace>
+                </ros>
+                <!-- <robotNamespace>${namespace}</robotNamespace> -->
+                <updateRate>${update_rate}</updateRate>
+            </plugin>
         </gazebo>
     </xacro:macro>
 
