@@ -42,7 +42,7 @@ depth:
   pose: [ -0.527, 0.489, -0.0912, 0, 0, 0]
 
 imu:
-  topic: imu/data
+  topic: /imu/imu/data
   # Noise modeling is weird and is hard coded in urdf with some numbers.
   # TODO: Model noise
   rate: 100 #Hz
