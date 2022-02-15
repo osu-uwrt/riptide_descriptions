@@ -24,10 +24,14 @@ maximum_angular_velocity: [.5, .5, 1]
 maximum_angular_acceleration: [2, 2, 2]
 
 # P values for the control system
+# linear_position_p: [1, 1, 1] # from before 2/13/2022
+# linear_velocity_p: [3, 5, 8]
+# angular_position_p: [300, 300, 300]
+# angular_velocity_p: [4, 6, 5]
 linear_position_p: [1, 1, 1]
-linear_velocity_p: [3, 5, 8]
+linear_velocity_p: [4, 4, 4]
 angular_position_p: [300, 300, 300]
-angular_velocity_p: [4, 6, 5]
+angular_velocity_p: [10, 10, 10]
 
 dvl:
   topic: dvl
