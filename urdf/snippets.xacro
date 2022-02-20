@@ -88,7 +88,7 @@
         <!-- <gazebo>
             <plugin name="pose_3d_plugin" filename="libuuv_gazebo_ros_pose_gt_plugin.so">
                 <ros>
-                    <namespace>${namespace}</namespace> <!-- (string, required): ros namespace in which the messages are published -->
+                    <namespace>${namespace}</namespace>
                 </ros>
                 <link_name>${namespace}/base_link</link_name>
                 <sensor_topic>pose_gt</sensor_topic>
@@ -125,7 +125,7 @@
             <origin rpy="${-pi/2} 0 ${-pi/2}"></origin>
         </joint>
 
-        <ignition reference="${namespace}/${name}_link">
+        <!-- <ignition reference="${namespace}/${name}_link"> -->
             <sensor name="${name}" type="camera">
                 <camera>
                     <topic>${namespace}/${name}</topic>
@@ -163,7 +163,7 @@
                 <always_on>1</always_on>
                 <update_rate>${update_rate}</update_rate>
             </sensor>
-        </ignition>
+        <!-- </ignition> -->
     </xacro:macro>
 
     <xacro:macro name="stereo_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
@@ -193,8 +193,8 @@
 
         <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${camera_namespace}/base_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 0 0" />
-            <ignition reference="${namespace}/${name}_link">
-                <sensor name="${name}" type="depth_camera">
+            <!-- <ignition reference="${namespace}/${name}_link"> -->
+                <!-- <sensor name="${name}" type="depth_camera">
                     <topic>${namespace}/${name}</topic>
                     <camera>
                       <horizontal_fov>${hfov}</horizontal_fov>
@@ -214,8 +214,8 @@
                     </noise>
                     </camera>
                     <update_rate>${update_rate}</update_rate>
-                </sensor>
-            </ignition>
+                </sensor> -->
+            <!-- </ignition> -->
             
         </xacro:camera_macro>
 
@@ -278,7 +278,7 @@
                     </range>
                 </ray>
 
-                <plugin filename="libgazebo_ros_ray_sensor.so" name="dvl${suffix}_sonar${index}">
+                <!-- <plugin filename="libgazebo_ros_ray_sensor.so" name="dvl${suffix}_sonar${index}"> TODO: COMMENTED PLUGIN
                     <ros>
                         <namespace>${namespace}</namespace>
                     </ros>
@@ -290,7 +290,7 @@
                     <fov>0.06</fov>
                     <radiation_type>ultrasound</radiation_type>
                     <output_type>sensor_msgs/Range</output_type>
-                </plugin>
+                </plugin> -->
             </sensor>
         </gazebo>
     </xacro:macro>
@@ -318,31 +318,31 @@
 
         <xacro:dvl_single_sonar namespace="${namespace}" suffix="${suffix}" index="3" pitch="1.309" yaw="0.7854" update_rate="${update_rate}"></xacro:dvl_single_sonar>
 
-        <gazebo>
+        <!-- <gazebo> TODO: COMMENTED PLUGIN
             <plugin filename="libuuv_gazebo_ros_dvl_plugin.so" name="libuuv_gazebo_dvl${suffix}_plugin">
                 <ros>
                     <namespace>${namespace}</namespace>
-                </ros> <!-- (string, required): ros namespace in which the messages are published -->
+                </ros> (string, required): ros namespace in which the messages are published
                 <link_name>${namespace}/dvl${suffix}_link</link_name>
-                <sensor_topic>${topic}</sensor_topic> <!-- (string): name of the sensor output topic and prefix of service names -->
-                <update_rate>${update_rate}</update_rate> <!-- Update period [s] -->
-                <noise_sigma>${noise_sigma}</noise_sigma> <!-- std dev of velocity estimates in x, y, z [m/s] -->
+                <sensor_topic>${topic}</sensor_topic> (string): name of the sensor output topic and prefix of service names
+                <update_rate>${update_rate}</update_rate> Update period [s]
+                <noise_sigma>${noise_sigma}</noise_sigma> std dev of velocity estimates in x, y, z [m/s]
                 <noise_amplitude>${noise_amplitude}</noise_amplitude>
                 <enable_gazebo_messages>false</enable_gazebo_messages>
                 <enable_local_ned_frame>false</enable_local_ned_frame>
                 <static_reference_frame>${reference_frame}</static_reference_frame>
-                <!-- Declaring the beams -->
+                Declaring the beams
                 <beam_link_name_0>${namespace}/dvl${suffix}_sonar0_link</beam_link_name_0>
                 <beam_link_name_1>${namespace}/dvl${suffix}_sonar1_link</beam_link_name_1>
                 <beam_link_name_2>${namespace}/dvl${suffix}_sonar2_link</beam_link_name_2>
                 <beam_link_name_3>${namespace}/dvl${suffix}_sonar3_link</beam_link_name_3>
-                <!-- Declaring the beam output topics -->
+                Declaring the beam output topics
                 <beam_topic_0>${topic}_sonar0</beam_topic_0>
                 <beam_topic_1>${topic}_sonar1</beam_topic_1>
                 <beam_topic_2>${topic}_sonar2</beam_topic_2>
                 <beam_topic_3>${topic}_sonar3</beam_topic_3>
             </plugin>
-        </gazebo>
+        </gazebo> -->
     </xacro:macro>
 
     <xacro:macro name="pressure_plugin_macro" params="namespace suffix parent_link topic update_rate
@@ -362,22 +362,22 @@
             <axis xyz="1 0 0" />
         </joint>
 
-        <gazebo>
+        <!-- <gazebo> TODO: COMMENTED PLUGIN
             <plugin filename="libuuv_gazebo_ros_subsea_pressure_plugin.so" name="libuuv_gazebo_subseapressure${suffix}_plugin">
-                <robot_namespace>${namespace}</robot_namespace> <!-- (string, required): ros namespace in which the messages are published -->
+                <robot_namespace>${namespace}</robot_namespace> (string, required): ros namespace in which the messages are published
                 <link_name>${namespace}/pressure${suffix}_link</link_name>
                 <sensor_topic>${topic}</sensor_topic>
                 <update_rate>${update_rate}</update_rate>
 
-                <saturation>${range}</saturation> <!-- measurement range [kPa] -->
-                <noise_sigma>${noise_sigma}</noise_sigma> <!-- measurement stddev [kPa] -->
+                <saturation>${range}</saturation> measurement range [kPa]
+                <noise_sigma>${noise_sigma}</noise_sigma> measurement stddev [kPa]
                 <noise_amplitude>${noise_amplitude}</noise_amplitude>
-                <estimate_depth_on>${estimateDepth}</estimate_depth_on> <!-- infer depth? -->
-                <standard_pressure>${standardPressure}</standard_pressure> <!-- pressure at sea level (depth 0 m) [kPa] -->
-                <kPa_per_meter>${kPaPerM}</kPa_per_meter> <!-- increase in pressure [kPa] per [m] in increased depth -->
+                <estimate_depth_on>${estimateDepth}</estimate_depth_on> infer depth?
+                <standard_pressure>${standardPressure}</standard_pressure> pressure at sea level (depth 0 m) [kPa]
+                <kPa_per_meter>${kPaPerM}</kPa_per_meter> increase in pressure [kPa] per [m] in increased depth
                 <enable_gazebo_messages>false</enable_gazebo_messages>
             </plugin>
-        </gazebo>
+        </gazebo> -->
     </xacro:macro>
 
     <xacro:macro name="imu_plugin_macro" params="namespace imu_suffix parent_link imu_topic
@@ -412,32 +412,6 @@
             <limit upper="0" lower="0" effort="0" velocity="0" />
             <axis xyz="1 0 0" />
         </joint>
-
-        <gazebo>
-            <plugin filename="libuuv_gazebo_ros_imu_plugin.so" name="libuuv_gazebo_imu${imu_suffix}_plugin">
-                <!-- A good description of the IMU parameters can be found in the kalibr documentation:
-           https://github.com/ethz-asl/kalibr/wiki/IMU-Noise-Model-and-Intrinsics -->
-                <robot_namespace>${namespace}</robot_namespace> <!-- (string, required): ros namespace in which the messages are published -->
-                <link_name>${namespace}/imu${imu_suffix}_revolute_link</link_name> <!-- (string, required): name of the body which holds the IMU sensor -->
-                <sensor_topic>${imu_topic}/sim</sensor_topic> <!-- (string): name of the sensor output topic and prefix of service names (defaults to imu) -->
-
-                <gyroscope_noise_density>${gyroscope_noise_density}</gyroscope_noise_density> <!-- Gyroscope noise density (two-sided spectrum) [rad/s/sqrt(Hz)] -->
-                <gyroscope_random_walk>${gyroscope_random_walk}</gyroscope_random_walk> <!-- Gyroscope bias random walk [rad/s/s/sqrt(Hz)] -->
-                <gyroscope_bias_correlation_time>${gyroscope_bias_correlation_time}</gyroscope_bias_correlation_time> <!-- Gyroscope bias correlation time constant [s] -->
-                <gyroscope_turn_on_bias_sigma>${gyroscope_turn_on_bias_sigma}</gyroscope_turn_on_bias_sigma> <!-- Gyroscope turn on bias standard deviation [rad/s] -->
-
-                <accelerometer_noise_density>${accelerometer_noise_density}</accelerometer_noise_density> <!-- Accelerometer noise density (two-sided spectrum) [m/s^2/sqrt(Hz)] -->
-                <accelerometer_random_walk>${accelerometer_random_walk}</accelerometer_random_walk> <!-- Accelerometer bias random walk. [m/s^2/s/sqrt(Hz)] -->
-                <accelerometer_bias_correlation_time>${accelerometer_bias_correlation_time}</accelerometer_bias_correlation_time> <!-- Accelerometer bias correlation time constant [s] -->
-                <accelerometer_turn_on_bias_sigma>${accelerometer_turn_on_bias_sigma}</accelerometer_turn_on_bias_sigma> <!-- Accelerometer turn on bias standard deviation [m/s^2] -->
-                <orientation_noise>${orientation_noise}</orientation_noise>
-
-                <update_rate>${update_rate}</update_rate> <!-- Update frequency of accelerometer and gyroscope [s] -->
-                <enable_gazebo_messages>false</enable_gazebo_messages>
-                <enable_local_ned_frame>${enable_local_ned_frame}</enable_local_ned_frame>
-                <static_reference_frame>${reference_frame}</static_reference_frame>
-            </plugin>
-        </gazebo>
     </xacro:macro>
 
     <xacro:macro name="thruster_macro" params="namespace
