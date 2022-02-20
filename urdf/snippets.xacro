@@ -71,9 +71,10 @@
             <origin rpy="${-pi/2} 0 ${-pi/2}"></origin>
         </joint>
 
-        <gazebo reference="${namespace}/${name}_link">
+        <ignition reference="${namespace}/${name}_link">
             <sensor name="${name}" type="camera">
                 <camera>
+                    <topic>${namespace}/${name}</topic>
                     <horizontal_fov>${hfov}</horizontal_fov>
                     <image>
                         <width>${width}</width>
@@ -90,25 +91,25 @@
                         <stddev>${stddev}</stddev>
                     </noise>
                 </camera>
-
-                <plugin name="${name}_controller" filename="libgazebo_ros_camera.so">
+                
+                <!-- <plugin name="${name}_controller" filename="libgazebo_ros_camera.so">
                     <alwaysOn>true</alwaysOn>
                     <ros>
-                        <!-- topics need to be prefixed with camera_name for remapping -->
+                        
                         <camera_name>${name}</camera_name>
                         <remapping>${name}/image_raw:=${namespace}/${name}/image_raw</remapping>
                         <remapping>${name}/image_raw/compressed:=${namespace}/${name}/image_raw/compressed</remapping>
                         <remapping>${name}/camera_info:=${namespace}/${name}/camera_info</remapping>
                     </ros>
-                    <!--<imageTopicName>image_raw</imageTopicName>
-                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>-->
+                 
                     <frameName>${namespace}/${name}_optical</frameName>
                     <hackBaseline>${baseline}</hackBaseline>
-                </plugin>
+                </plugin> -->
+
                 <always_on>1</always_on>
                 <update_rate>${update_rate}</update_rate>
             </sensor>
-        </gazebo>
+        </ignition>
     </xacro:macro>
 
     <xacro:macro name="stereo_macro" params="namespace parent_link name update_rate hfov width height stddev baseline *origin">
@@ -138,6 +139,30 @@
 
         <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${camera_namespace}/base_link" update_rate="${update_rate}" hfov="${hfov}" width="${width}" height="${height}" stddev="${stddev}" baseline="${baseline}">
             <origin xyz="0 0 0" />
+            <ignition reference="${namespace}/${name}_link">
+                <sensor name="${name}" type="depth_camera">
+                    <topic>${namespace}/${name}</topic>
+                    <camera>
+                      <horizontal_fov>${hfov}</horizontal_fov>
+                      <image>
+                        <width>${width}</width>
+                        <height>${height}</height>
+                        <format>R_FLOAT32</format>
+                      </image>
+                      <clip>
+                        <near>0.05</near>
+                        <far>3000</far>
+                      </clip>
+                      <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>${stddev}</stddev>
+                    </noise>
+                    </camera>
+                    <update_rate>${update_rate}</update_rate>
+                </sensor>
+            </ignition>
+            
         </xacro:camera_macro>
 
         <!-- Right camera -->
