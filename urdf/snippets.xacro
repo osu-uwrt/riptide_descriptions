@@ -408,24 +408,20 @@
             <xacro:no_collision />
         </link>
 
-        <gazebo>
-            <plugin name="${namespace}_${thruster_id}_thruster_model" filename="libuuv_thruster_ros_plugin.so">
-                <linkName>${namespace}/thruster_${thruster_id}</linkName>
-                <jointName>${namespace}/thruster_${thruster_id}_joint</jointName>
-                <thrusterID>${thruster_id}</thrusterID>
-                <dynamics>
-                    <type>ZeroOrder</type>
-                </dynamics>
-                <conversion>
-                    <type>Basic</type>
-                    <rotorConstant>${rotor_constant}</rotorConstant>
-                </conversion>
-            </plugin>
-        </gazebo>
+        <plugin
+            filename="ignition-gazebo-thruster-system"
+            name="ignition::gazebo::systems::Thruster">
+            <namespace>${namespace}</namespace>
+            <joint_name>${namespace}/thruster_${thruster_id}_joint</joint_name>
+            <!-- used the docs from blue robotics to generate this
+            Calculated from this equation in desmos \frac{3.96\cdot9.81}{1000\cdot3088^{2}\cdot0.007628^{4}}
+            3.96 is force in N, 3088 is prop rpm, blade diameter is 0.007628 m, and fluid density is 1000 kg/m^3 -->
+            <thrust_coefficient>1.20328</thrust_coefficient>
+            <fluid_density>1000</fluid_density>
+            <!-- prop diameter is 72.28 mm -->
+            <propeller_diameter>0.007628</propeller_diameter> 
+        </plugin>
 
-        <gazebo reference="${namespace}/thruster_${thruster_id}">
-            <selfCollide>false</selfCollide>
-        </gazebo>
     </xacro:macro>
 
     <xacro:macro name="default_joint_state_publisher" params="namespace update_rate">
