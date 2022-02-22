@@ -50,7 +50,7 @@
     <gazebo>
       <!-- TODO: ADD Buoyancy System -->
       <plugin filename="ignition-gazebo-hydrodynamics-system" name="ignition::gazebo::systems::Hydrodynamics">
-          <link_name>base_link</link_name>
+          <link_name>${namespace}/base_link</link_name>
           <xacro:property name="lin" value="${config['linear_damping']}"/>
           <xacro:property name="quad" value="${config['quadratic_damping']}"/>
 
