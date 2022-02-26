@@ -14,13 +14,13 @@ inertia: [1.32, 2.84, 3.65]
 # Drag force = linear_damping * vel + quadratic_damping * vel * abs(vel)
 # Vector is [X, Y, Z, X rotation, Y rotation, Z rotation] all in body frame
 # TODO: Calculate real numbers 
-linear_damping: [-17.0, -50.0, -50.0, -2, -4.5, -2.5]
-quadratic_damping: [-180.0, -460.0, -460.0, -6, -12, -12]
+linear_damping: [-17.0, -50.0, -50.0, -2.0, -4.5, -2.5]
+quadratic_damping: [-180.0, -460.0, -460.0, -6.0, -12.0, -12.0]
 
 # maximum values for velocity and acceleration the thrusters are capible of reaching
 maximum_linear_velocity: [.45, .2, .2]
 maximum_linear_acceleration: [1, 1, 1]
-maximum_angular_velocity: [.5, .5, 1]
+maximum_angular_velocity: [.5, .5, 1.0]
 maximum_angular_acceleration: [2, 2, 2]
 
 # P values for the control system
