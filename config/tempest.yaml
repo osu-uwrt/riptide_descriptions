@@ -7,7 +7,8 @@ volume: .0321 # m^3
 # Point which represents robot position. Must be near center
 base_link: [-0.386, 0.352, -0.15] 
 com: [-0.37219, 0.36111, -0.11810]
-cob: [-0.37219, 0.36111, -0.10810]
+#cob: [-0.37219, 0.36111, -0.10810]
+cob: [-0.37219, 0.36111, -0.1181]
 inertia: [1.32, 2.84, 3.65]
 
 # Drag parameters
@@ -19,21 +20,21 @@ quadratic_damping: [-180.0, -460.0, -460.0, -6.0, -12.0, -12.0]
 
 # maximum values for velocity and acceleration the thrusters are capible of reaching
 maximum_linear_velocity: [.45, .2, .2]
-maximum_linear_acceleration: [1, 1, 1]
+maximum_linear_acceleration: [1.0, 1.0, 1.0]
 maximum_angular_velocity: [.5, .5, 1.0]
-maximum_angular_acceleration: [2, 2, 2]
+maximum_angular_acceleration: [2.0, 2.0, 2.0]
 
 # P values for the control system
-linear_position_p: [1, 1, 1]
-linear_velocity_p: [4, 4, 4]
-angular_position_p: [300, 300, 300]
-angular_velocity_p: [10, 10, 10]
+linear_position_p: [1.0, 1.0, 1.0]
+linear_velocity_p: [3.5, 3.5, 3.5]
+angular_position_p: [300.0, 300.0, 300.0]
+angular_velocity_p: [10.0, 10.0, 10.0]
 
 dvl:
   topic: dvl
   rate: 8 # Hz
   sigma: 0.001 # Stdev in m/s. Used by gazebo
-  pose: [-0.375, 0.35, -0.32, 0, 0, 0]
+  pose: [-0.375, 0.35, -0.32, 0, 0, -0.7853981]
 
 depth:
   topic: depth/pressure
@@ -46,7 +47,8 @@ imu:
   # Noise modeling is weird and is hard coded in urdf with some numbers.
   # TODO: Model noise
   rate: 100 #Hz
-  pose: [-0.316, 0.225, -0.046, 0, 0, 0]
+#  pose: [-0.316, 0.225, -0.046, -1.57079, 0, 0]
+  pose: [-0.316, 0.225, -0.046, -1.574296, 0.0051, 3.141592]
 
 cameras: [
   {
@@ -67,7 +69,7 @@ cameras: [
 
 thruster: 
   rotor_constant: 0.01 # Not sure units. If too low bot shakes in sim
-  max_force: 30 # Newtons. Thrusters draw about 8A here
+  max_force: 15 # Newtons. Thrusters draw about 8A here
   MIN_THRUST: 0.2
   STARTUP_THRUST: 1.5
   SU_THRUST:
@@ -81,46 +83,46 @@ thruster:
     NEG_SLOPE: 8.54
     NEG_YINT: 1444
 
-
+# Note: thruster type means the attack direction of the thruster. This means that the type of the thruster should match which way the thruster is expected to spin for the thruster test
 thrusters: [
   {
-    name: "HSA",
-    type: 1,
-    pose: [-0.764, -0.051, -0.078, 0.0, -1.57079, 0.0]
+    name: "HSF",
+    type: 1,    # Needs 1 f
+    pose: [0.019, -0.051, -0.078, 0.0, 1.57079, 0.0]
   },
   {
-    name: "HSF",
-    type: 1,
-    pose: [0.019, -0.051, -0.078, 0.0, -1.57079, 0.0]
+    name: "HSA",
+    type: 0,    # Needs 2 f
+    pose: [-0.764, -0.051, -0.078, 0.0, 1.57079, 0.0]
+  },
+  {
+    name: "HPA",
+    type: 1,    # Needs 3 f
+    pose: [-0.764, 0.763, -0.078, 0.0, 1.57079, 0.0] 
+  },
+  {
+    name: "HPF",
+    type: 0,    # Needs 4 f
+    pose: [0.019, 0.763, -0.078, 0.0, 1.57079, 0.0] 
   },
   {
     name: "VSF",
-    type: 0,
+    type: 0,    # Needs 5
     pose: [-0.04, 0.008, -0.0706, 0.0, 0.0, -2.35619]
   },
   {
     name: "VSA",
-    type: 0,
+    type: 0,    # Needs 6
     pose: [-0.676, 0.008, -0.0706, 0.0, 0.0, -0.78540]
   },
   {
-    name: "HPF",
-    type: 1,
-    pose: [0.019, 0.763, -0.078, 0.0, -1.57079, 0.0] 
-  },
-  {
-    name: "HPA",
-    type: 1,
-    pose: [-0.764, 0.763, -0.078, 0.0, -1.57079, 0.0] 
+    name: "VPA",
+    type: 1,    # Needs 7
+    pose: [-0.676, 0.674, -0.0706, 0.0, 0.0, 0.78540]
   },
   {
     name: "VPF",
-    type: 0,
+    type: 1,    # Needs 8
     pose: [-0.04, 0.674, -0.0706, 0.0, 0.0, 2.35619]
-  },
-  {
-    name: "VPA",
-    type: 0,
-    pose: [-0.676, 0.674, -0.0706, 0.0, 0.0, 0.78540]
   }
 ]
