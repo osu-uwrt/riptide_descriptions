@@ -5,7 +5,7 @@
 # mass: 30.98036 # kg
 # mass: 31.914759 # kg
 #mass: 31.920 # kg from COM device on 4/12/22
-mass: 32.542 #kg
+mass: 32.3214 #kg
 # volume: .0321 # m^3
 volume: 0.0331 # this is new volume found from solid works. Seems wrong because it is half of what we had before
 # Point which represents robot position. Must be near center
