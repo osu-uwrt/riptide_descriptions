@@ -1,34 +1,52 @@
 # Positions are in meters from back left foot. ENU convention
 # Pose is xyzrpy with rpy in radians
 
-# Visual model for gazebo and rviz
-mass: 30.98036 # kg
-volume: .0321 # m^3
 # Point which represents robot position. Must be near center
-base_link: [-0.386, 0.352, -0.15] 
+base_link: [-0.386, 0.352, -0.15]
+
+# Vehicle mass properties
+mass: 30.98036 # kg
 com: [-0.37219, 0.36111, -0.11810]
-#cob: [-0.37219, 0.36111, -0.10810]
+inertia: [1.32, 2.84, 3.65] # kg*m^2
+
+# Vehicle bouyancy properties
+volume: .0321 # m^3
 cob: [-0.37219, 0.36111, -0.1181]
-inertia: [1.32, 2.84, 3.65]
 
-# Drag parameters
-# Drag force = linear_damping * vel + quadratic_damping * vel * abs(vel)
-# Vector is [X, Y, Z, X rotation, Y rotation, Z rotation] all in body frame
-# TODO: Calculate real numbers 
-linear_damping: [-17.0, -50.0, -50.0, -2.0, -4.5, -2.5]
-quadratic_damping: [-180.0, -460.0, -460.0, -6.0, -12.0, -12.0]
+# Controller parameters
+controller:
+  linear:
+    # linear damping coeficients
+    damping:
+      linear: [-17.0, -50.0, -50.0]
+      quadratic: [-180.0, -460.0, -460.0]
 
-# maximum values for velocity and acceleration the thrusters are capible of reaching
-maximum_linear_velocity: [.45, .2, .2]
-maximum_linear_acceleration: [1.0, 1.0, 1.0]
-maximum_angular_velocity: [.5, .5, 1.0]
-maximum_angular_acceleration: [2.0, 2.0, 2.0]
+    # physical maximums for each linear axis
+    max:
+      velocity: [.45, .2, .2]
+      acceleration: [1.0, 1.0, 1.0]
 
-# P values for the control system
-linear_position_p: [1.0, 1.0, 1.0]
-linear_velocity_p: [3.5, 3.5, 3.5]
-angular_position_p: [300.0, 300.0, 300.0]
-angular_velocity_p: [10.0, 10.0, 10.0]
+    # linear controller proportional gains
+    p_gains:
+      position: [1.0, 1.0, 1.0]
+      velocity: [3.5, 3.5, 3.5]
+
+  angular:
+    # angular damping coeficients
+    damping:
+      linear: [-2.0, -4.5, -2.5]
+      quadratic: [-6.0, -12.0, -12.0]
+
+    # physical maximums for each rotational axis
+    max:
+      velocity: [.5, .5, 1.0]
+      acceleration: [2.0, 2.0, 2.0]
+
+    # Angular controller proportional gains
+    p_gains:
+      position: [300.0, 300.0, 300.0]
+      velocity: [10.0, 10.0, 10.0]
+
 
 dvl:
   topic: dvl
