@@ -120,10 +120,14 @@
           </xacro:camera_macro>
         </xacro:if> 
 
-        <!-- MYNT Camera -->
+        <!-- MYNT/ZED Camera -->
         <!-- Suffix isn't set here because right now we just have one, but you should just need to change the suffix for each and it'll work. -->
         <xacro:unless value="${camera['type'] == 'mono'}">
-          <xacro:mynt_macro
+          <!-- <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" /> -->
+          <!-- <xacro:zed_camera name="${camera['name']}" model="${camera['model']}" parent="${namespace}/base_link" >
+            <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}" />
+          </xacro:zed_camera> -->
+          <!-- <xacro:mynt_macro
             namespace="${namespace}"
             name="${camera['name']}"
             parent_link="${namespace}/origin" 
@@ -137,7 +141,7 @@
             imu_rate="${camera['imu_rate']}">
             <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
                     rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
-          </xacro:mynt_macro>
+          </xacro:mynt_macro> -->
         </xacro:unless>
       </xacro:unless>
       <xacro:cameras_macro namespace="${namespace}" cameras="${cameras[1:]}"/>
