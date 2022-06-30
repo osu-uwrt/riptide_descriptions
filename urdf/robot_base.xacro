@@ -46,43 +46,6 @@
       <origin xyz="${config['com'][0]} ${config['com'][1]} ${config['com'][2]}" rpy="0 0 0"/>
     </joint>
 
-    <!-- Set up hydrodynamic plugin -->
-    <gazebo>
-      <!-- TODO: ADD Buoyancy System -->
-      <plugin filename="ignition-gazebo-hydrodynamics-system" name="ignition::gazebo::systems::Hydrodynamics">
-          <link_name>${namespace}/base_link</link_name>
-          <xacro:property name="lin" value="${config['linear_damping']}"/>
-          <xacro:property name="quad" value="${config['quadratic_damping']}"/>
-
-          <xDotU>0</xDotU>
-          <yDotV>0</yDotV>
-          <zDotW>0</zDotW>
-          <kDotP>0</kDotP>
-          <mDotQ>0</mDotQ>
-          <nDotR>0</nDotR>
-          <xUU>${quad[0]}</xUU>
-          <xU>${lin[0]}</xU>
-          <yVV>${quad[1]}</yVV>
-          <yV>${lin[1]}</yV>
-          <zWW>${quad[2]}</zWW>
-          <zW>${lin[2]}</zW>
-          <kPP>${quad[3]}</kPP>
-          <kP>${lin[3]}</kP>
-          <mQQ>${quad[4]}</mQQ>
-          <mQ>${lin[4]}</mQ>
-          <nRR>${quad[5]}</nRR>
-          <nR>${lin[5]}</nR>
-      </plugin>
-      <!-- <plugin name="uuv_plugin" filename="libuuv_underwater_object_ros_plugin.so">
-        <fluid_density>1000</fluid_density>
-        <flow_velocity_topic>hydrodynamics/current_velocity</flow_velocity_topic>
-        <debug>$(arg debug)</debug>
-        
-        <xacro:puddles_hydro_model namespace="$(arg namespace)"/>
-      </plugin> -->
-
-    </gazebo>
-
     <xacro:include filename="$(find riptide_descriptions2)/urdf/robot_sensors.xacro" />
     <xacro:include filename="$(find riptide_descriptions2)/urdf/robot_actuators.xacro" />
 

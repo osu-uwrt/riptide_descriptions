@@ -3,10 +3,6 @@
   <!-- Everything here is ENU frame -->
 
   <xacro:property name="dvl" value="${config['dvl']}"/>
-  <xacro:default_joint_state_publisher
-  namespace="${namespace}"
-  update_rate="${dvl['rate']}" >
-  </xacro:default_joint_state_publisher>
 
   <!-- DVL  -->
   <!-- TODO: restore below if when xacro releases 1.14.4 -->
@@ -14,14 +10,8 @@
     <xacro:property name="dvl" value="${config['dvl']}"/>
     <xacro:dvl_plugin_macro
       namespace="${namespace}" 
-      suffix="" 
-      parent_link="${namespace}/origin"
-      topic="${dvl['topic']}" 
-      scale="1"
-      update_rate="${dvl['rate']}"
-      reference_frame="${inertial_reference_frame}"
-      noise_sigma="${dvl['sigma']}" 
-      noise_amplitude="1">
+      suffix=""
+      parent_link="${namespace}/origin">
       <origin xyz="${dvl['pose'][0]} ${dvl['pose'][1]} ${dvl['pose'][2]}" 
               rpy="${dvl['pose'][3]} ${dvl['pose'][4]} ${dvl['pose'][5]}"/>
     </xacro:dvl_plugin_macro>
@@ -34,15 +24,7 @@
     <xacro:pressure_plugin_macro
       namespace="${namespace}"
       suffix=""
-      parent_link="${namespace}/origin"
-      topic="${depth['topic']}"
-      update_rate="${depth['rate']}"
-      range="300"
-      noise_sigma="${depth['sigma'] * 9.80638}" 
-      noise_amplitude="1"
-      estimateDepth="false"
-      standardPressure="101.325"
-      kPaPerM="9.80638">
+      parent_link="${namespace}/origin">
       <origin xyz="${depth['pose'][0]} ${depth['pose'][1]} ${depth['pose'][2]}" 
               rpy="${depth['pose'][3]} ${depth['pose'][4]} ${depth['pose'][5]}"/>
     </xacro:pressure_plugin_macro>
@@ -56,20 +38,7 @@
     <xacro:imu_plugin_macro
       namespace="${namespace}"
       imu_suffix=""
-      parent_link="${namespace}/origin"
-      imu_topic="${namespace}/${imu['topic']}"
-      gyroscope_noise_density="0.0003394"
-      gyroscope_random_walk="0.000038785"
-      gyroscope_bias_correlation_time="1000.0"
-      gyroscope_turn_on_bias_sigma="0.0087"
-      accelerometer_noise_density="0.004"
-      accelerometer_random_walk="0.006"
-      accelerometer_bias_correlation_time="300.0"
-      accelerometer_turn_on_bias_sigma="0.1960"
-      orientation_noise="0.01"
-      enable_local_ned_frame="false"
-      reference_frame="${inertial_reference_frame}"
-      update_rate="${imu['rate']}">
+      parent_link="${namespace}/origin">
       <origin xyz="${imu['pose'][0]} ${imu['pose'][1]} ${imu['pose'][2]}" 
               rpy="${imu['pose'][3]} ${imu['pose'][4]} ${imu['pose'][5]}"/>
     </xacro:imu_plugin_macro>
@@ -91,13 +60,7 @@
         <xacro:stereo_macro
           namespace="${namespace}"
           parent_link="${namespace}/origin" 
-          name="${camera['name']}"
-          update_rate="${camera['rate']}"
-          hfov="${camera['hfov']}"
-          width="${camera['width']}"
-          height="${camera['height']}"
-          stddev="${camera['stddev']}"
-          baseline="${camera['baseline']}">
+          name="${camera['name']}">
           <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
                   rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
         </xacro:stereo_macro>
@@ -109,12 +72,7 @@
           <xacro:camera_macro
             namespace="${namespace}"
             name="${camera['name']}"
-            parent_link="${namespace}/origin" 
-            update_rate="${camera['rate']}"
-            hfov="${camera['hfov']}"
-            width="${camera['width']}"
-            height="${camera['height']}"
-            stddev="${camera['stddev']}">
+            parent_link="${namespace}/origin">
             <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
                     rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
           </xacro:camera_macro>
@@ -123,25 +81,6 @@
         <!-- MYNT/ZED Camera -->
         <!-- Suffix isn't set here because right now we just have one, but you should just need to change the suffix for each and it'll work. -->
         <xacro:unless value="${camera['type'] == 'mono'}">
-          <!-- <xacro:include filename="$(find zed_wrapper)/urdf/zed_macro.urdf.xacro" /> -->
-          <!-- <xacro:zed_camera name="${camera['name']}" model="${camera['model']}" parent="${namespace}/base_link" >
-            <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}" />
-          </xacro:zed_camera> -->
-          <!-- <xacro:mynt_macro
-            namespace="${namespace}"
-            name="${camera['name']}"
-            parent_link="${namespace}/origin" 
-            update_rate="${camera['rate']}"
-            hfov="${camera['hfov']}"
-            width="${camera['width']}"
-            height="${camera['height']}"
-            stddev="${camera['stddev']}"
-            baseline="${camera['baseline']}"
-            imu_topic="${camera['imu_topic']}"
-            imu_rate="${camera['imu_rate']}">
-            <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
-                    rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
-          </xacro:mynt_macro> -->
         </xacro:unless>
       </xacro:unless>
       <xacro:cameras_macro namespace="${namespace}" cameras="${cameras[1:]}"/>
