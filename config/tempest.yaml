@@ -67,6 +67,12 @@ imu:
 #  pose: [-0.316, 0.225, -0.046, -1.57079, 0, 0]
   pose: [-0.316, 0.225, -0.046, -1.574296, 0.0051, 3.141592]
 
+claw:
+  pose: [-0.35, 0.82, -0.066, 0, 0, 1.507]
+
+torpedos: 
+  pose: [-0.35, 0, 0.05, 0, 0, 0]
+
 cameras: [
   {
     type: cam2, 
@@ -91,7 +97,7 @@ cameras: [
     width: 1280,
     height: 720,
     stddev: 0.02,
-    pose: [-0.35, 0, -0.066, 0, 0, -1.507] #TODO: fill in with actual measurements (I just guessed where it would be)
+    pose: [-0.35, 0.82, -0.15, 0, 0, 1.507] #TODO: fill in with actual measurements (I just guessed where it would be)
   }
 ]
 
