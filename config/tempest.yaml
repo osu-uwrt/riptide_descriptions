@@ -5,13 +5,13 @@
 base_link: [-0.386, 0.352, -0.15]
 
 # Vehicle mass properties
-mass: 32.3214 #kg
-com: [-0.418, 0.357, -0.11] # With X and Y flipped
+mass: 35.1260 #kg
+com: [-0.418, 0.364, -0.105] # With X and Y flipped
 inertia: [0.9978, 1.6934, 2.1284] # kg*m^2
 
 # Vehicle bouyancy properties
-volume: 0.0331 # m^3
-cob: [-0.400001, 0.35511, -0.10810]
+volume: 0.0350 # m^3
+cob: [-0.400001, 0.35811, -0.10810]
 
 # Controller parameters
 controller:
@@ -82,16 +82,6 @@ cameras: [
     imu_topic: imu/data_raw,
     imu_rate: 200, # Hz
     # Note: IMU Pose isn't necessary b/c it's located halfway between the two cameras and we can thus calculate it in the macros easily as {baseline/2}
-  },
-  {
-    type: mono,
-    name: side_camera,
-    rate: 60,
-    hfov: 1.418,
-    width: 1280,
-    height: 720,
-    stddev: 0.02,
-    pose: [-0.35, 0, -0.066, 0, 0, -1.507] #TODO: fill in with actual measurements (I just guessed where it would be)
   }
 ]
 
