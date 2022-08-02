@@ -50,5 +50,4 @@
     <xacro:include filename="$(find riptide_descriptions2)/urdf/robot_actuators.xacro" />
 
   </xacro:macro>
-
 </robot>
