@@ -78,19 +78,11 @@ droppers:
 
 cameras: [
   {
-    type: cam2, 
+    type: stereo, 
     name: stereo,
     model: zed2,
-    rate: 60, 
-    hfov: 1.418, # 120deg (we have 120deg model) converted to rad 
-    width: 1280, # TODO: Double check that this is the resolution we'll be running at 
-    height: 720, 
-    stddev: 0.02, # TODO: Estimate this number, I just ripped it from the other two 
     baseline: 0.12, # m. Distance between cameras (manually measured) 
-    pose: [-0.242, 0.283, -0.066, 0, 0, 0], # TODO: Fill this in with actual measurements.
-    imu_topic: imu/data_raw,
-    imu_rate: 200, # Hz
-    # Note: IMU Pose isn't necessary b/c it's located halfway between the two cameras and we can thus calculate it in the macros easily as {baseline/2}
+    pose: [-0.242, 0.283, -0.066, 0, 0, 0]
   }
 ]
 

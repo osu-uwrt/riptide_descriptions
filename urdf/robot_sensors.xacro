@@ -60,7 +60,8 @@
         <xacro:stereo_macro
           namespace="${namespace}"
           parent_link="${namespace}/origin" 
-          name="${camera['name']}">
+          name="${camera['name']}"
+          baseline="${camera['baseline']}">
           <origin xyz="${camera['pose'][0]} ${camera['pose'][1]} ${camera['pose'][2]}" 
                   rpy="${camera['pose'][3]} ${camera['pose'][4]} ${camera['pose'][5]}"/>
         </xacro:stereo_macro>
