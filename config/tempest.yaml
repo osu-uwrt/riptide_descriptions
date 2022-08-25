@@ -91,16 +91,6 @@ cameras: [
     imu_topic: imu/data_raw,
     imu_rate: 200, # Hz
     # Note: IMU Pose isn't necessary b/c it's located halfway between the two cameras and we can thus calculate it in the macros easily as {baseline/2}
-  },
-  {
-    type: mono,
-    name: side_camera,
-    rate: 60,
-    hfov: 1.418,
-    width: 1280,
-    height: 720,
-    stddev: 0.02,
-    pose: [-0.35, 0.82, -0.15, 0, 0, 1.507] #TODO: fill in with actual measurements (I just guessed where it would be)
   }
 ]
 
