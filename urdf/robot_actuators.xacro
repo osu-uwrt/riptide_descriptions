@@ -35,10 +35,85 @@
         index="${index+1}"/>
     </xacro:if>
   </xacro:macro>
+
+  <xacro:macro name="claw_macro" params="namespace config">
+    <xacro:property name="claw" value="${config['claw']}"/>
+    <joint name="${namespace}/claw_joint" type="fixed">
+      <origin xyz="${claw['pose'][0]} ${claw['pose'][1]} ${claw['pose'][2]}"
+              rpy="${claw['pose'][3]} ${claw['pose'][4]} ${claw['pose'][5]}"/>
+      <parent link="${namespace}/origin"/>
+      <child link="${namespace}/claw_link"/>
+    </joint>
+
+    <link name="${namespace}/claw_link">
+      <xacro:dummy_inertia />
+      <xacro:no_collision />
+
+      <visual>
+        <geometry>
+          <box size="0.2 0.05 0.05"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="torpedo_macro" params="namespace config">
+    <xacro:property name="torpedo" value="${config['torpedos']}"/>
+    <joint name="${namespace}/torpedo_joint" type="fixed">
+      <origin xyz="${torpedo['pose'][0]} ${torpedo['pose'][1]} ${torpedo['pose'][2]}"
+              rpy="${torpedo['pose'][3]} ${torpedo['pose'][4]} ${torpedo['pose'][5]}" />
+      <parent link="${namespace}/origin"/>
+      <child link="${namespace}/torpedo_link"/>
+    </joint>
+
+    <link name="${namespace}/torpedo_link">
+      <xacro:dummy_inertia />
+      <xacro:no_collision />
+
+      <visual>
+        <geometry>
+          <box size="0.25 0.05, 0.05"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="dropper_macro" params="namespace config">
+    <xacro:property name="dropper" value="${config['droppers']}"/>
+    <joint name="${namespace}/dropper_joint" type="fixed">
+      <origin xyz="${dropper['pose'][0]} ${dropper['pose'][1]} ${dropper['pose'][2]}"
+              rpy="${dropper['pose'][3]} ${dropper['pose'][4]} ${dropper['pose'][5]}" />
+      <parent link="${namespace}/origin"/>
+      <child link="${namespace}/droppers_link"/>
+    </joint>
+
+    <link name="${namespace}/droppers_link">
+      <xacro:dummy_inertia />
+      <xacro:no_collision />
+
+      <visual>
+        <geometry>
+          <box size="0.025 0.025 0.1"/>
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
   
   <xacro:thrusters_macro 
         namespace="${namespace}"
         config="${config['thruster']}"
         thrusters="${config['thrusters']}"
         index="0"/>
+  
+  <xacro:claw_macro
+        namespace="${namespace}"
+        config="${config}"/>
+
+  <xacro:torpedo_macro
+        namespace="${namespace}"
+        config="${config}"/>
+
+  <xacro:dropper_macro
+        namespace="${namespace}"
+        config="${config}"/>
 </robot>

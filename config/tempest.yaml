@@ -5,13 +5,13 @@
 base_link: [-0.386, 0.352, -0.15]
 
 # Vehicle mass properties
-mass: 35.1260 #kg
-com: [-0.418, 0.364, -0.105] # With X and Y flipped
+mass: 33.7848 #kg
+com: [-0.4125, 0.377, -0.112] # With X and Y flipped
 inertia: [0.9978, 1.6934, 2.1284] # kg*m^2
 
 # Vehicle bouyancy properties
-volume: 0.0350 # m^3
-cob: [-0.400001, 0.35811, -0.10810]
+volume: 0.0348 # m^3
+cob: [-0.41001, 0.3811, -0.10810]
 
 # Controller parameters
 controller:
@@ -44,7 +44,7 @@ controller:
 
     # Angular controller proportional gains
     p_gains:
-      position: [600.0, 600.0, 600.0]
+      position: [608.0, 600.0, 600.0]
       velocity: [2.5, 3.0, 3.5]
 
 dvl:
@@ -66,6 +66,15 @@ imu:
   rate: 100 #Hz
 #  pose: [-0.316, 0.225, -0.046, -1.57079, 0, 0]
   pose: [-0.316, 0.225, -0.046, -1.574296, 0.0051, 3.141592]
+
+claw:
+  pose: [-0.35, 0.82, -0.066, 0, 0, 1.507]
+
+torpedos: 
+  pose: [-0.1143, 0.7112, 0.03175, 0, 0, 0]
+
+droppers:
+  pose: [-0.35, 0, 0.05, 0, 0, 0]
 
 cameras: [
   {
