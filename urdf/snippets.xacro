@@ -56,22 +56,11 @@
     </xacro:macro>
 
     <xacro:macro name="stereo_macro" params="namespace parent_link name baseline *origin">
-        <link name="${namespace}/stereo_link">
-            <xacro:dummy_inertia />
-            <xacro:no_collision />
-        </link>
-
-        <joint name="${namespace}/stereo_joint" type="fixed">
+        <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${namespace}/origin">
             <xacro:insert_block name="origin" />
-            <parent link="${parent_link}" />
-            <child link="${namespace}/stereo_link" />
-        </joint>
-
-        <xacro:camera_macro namespace="${namespace}/${name}" name="left" parent_link="${namespace}/stereo_link">
-            <origin xyz="0 0 0" />
         </xacro:camera_macro>
 
-        <xacro:camera_macro namespace="${namespace}/${name}" name="right" parent_link="${namespace}/stereo_link">
+        <xacro:camera_macro namespace="${namespace}/${name}" name="right" parent_link="${namespace}/${name}/left_link">
             <origin xyz="0 ${-baseline} 0" />
         </xacro:camera_macro>
     </xacro:macro>
